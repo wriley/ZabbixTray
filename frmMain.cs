@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using IniFile;
 
 namespace ZabbixTray
 {
@@ -15,6 +16,10 @@ namespace ZabbixTray
         private static string ICON_OK = "ZabbixTray.ztIcon_ok.ico";
         private static string ICON_ALERT = "ZabbixTray.ztIcon_alert.ico";
 
+        private static string myIniFileName = "ZabbixTray.ini";
+        private static string myIniFileSectionName = "ZabbixTray";
+        private IniFileReader ifr;
+
         private static Color COLOR_OK = Color.LimeGreen;
         private static Color COLOR_ALERT = Color.LightCoral;
         private static Color COLOR_ERROR = Color.Yellow;
@@ -23,12 +28,12 @@ namespace ZabbixTray
         private DataTable dtAlerts;
         private int numAlerts = 0;
 
-        private string dbServer = ZabbixTray.Properties.Settings.Default.dbServer;
-        private string dbDatabase = ZabbixTray.Properties.Settings.Default.dbDatabase;
-        private string dbUsername = ZabbixTray.Properties.Settings.Default.dbUsername;
-        private string dbPassword = ZabbixTray.Properties.Settings.Default.dbPassword;
-        private int checkInterval = ZabbixTray.Properties.Settings.Default.checkInterval;
-        private bool showAck = ZabbixTray.Properties.Settings.Default.showAck;
+        private string dbServer = null;
+        private string dbDatabase = null;
+        private string dbUsername = null;
+        private string dbPassword = null;
+        private int checkInterval = 60;
+        private bool showAck = true;
 
         private MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
         private MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
@@ -41,6 +46,9 @@ namespace ZabbixTray
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            ifr = new IniFileReader(myIniFileName);
+            ifr.OutputFilename = myIniFileName;
+            loadSettings();
             setIcon(ICON_OFF);
             lblCheckInterval.Text = checkInterval.ToString();
             tmrMySQL.Interval = (checkInterval * 1000);
@@ -93,14 +101,31 @@ namespace ZabbixTray
             get { return showAck; }
         }
 
+        private void loadSettings()
+        {
+            try
+            {
+                dbServer = ifr.GetIniValue(myIniFileSectionName, "dbServer");
+                dbDatabase = ifr.GetIniValue(myIniFileSectionName, "dbDatabase");
+                dbUsername = ifr.GetIniValue(myIniFileSectionName, "dbUsername");
+                dbPassword = ifr.GetIniValue(myIniFileSectionName, "dbPassword");
+                checkInterval = Int32.Parse(ifr.GetIniValue(myIniFileSectionName, "checkInterval"));
+                showAck = bool.Parse(ifr.GetIniValue(myIniFileSectionName, "showAck"));
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         public void saveSettings()
         {
-            ZabbixTray.Properties.Settings.Default.dbServer = dbServer;
-            ZabbixTray.Properties.Settings.Default.dbDatabase = dbDatabase;
-            ZabbixTray.Properties.Settings.Default.dbUsername = dbUsername;
-            ZabbixTray.Properties.Settings.Default.dbPassword = dbPassword;
-            ZabbixTray.Properties.Settings.Default.checkInterval = checkInterval;
-            ZabbixTray.Properties.Settings.Default.Save();
+            ifr.SetIniValue(myIniFileSectionName, "dbServer", dbServer);
+            ifr.SetIniValue(myIniFileSectionName, "dbDatabase", dbDatabase);
+            ifr.SetIniValue(myIniFileSectionName, "dbUsername", dbUsername);
+            ifr.SetIniValue(myIniFileSectionName, "dbPassword", dbPassword);
+            ifr.SetIniValue(myIniFileSectionName, "checkInterval", checkInterval.ToString());
+            ifr.SetIniValue(myIniFileSectionName, "showAck", showAck.ToString());
+            ifr.Save();
         }
 
         private void setIcon(string strName)
