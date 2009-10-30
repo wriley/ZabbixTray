@@ -286,5 +286,15 @@ namespace ZabbixTray
             frmOptions fo = new frmOptions(this);
             fo.ShowDialog(this);
         }
+
+        private void checkNowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            updateAlerts();
+        }
+
+        private void btnCheckNow_Click(object sender, EventArgs e)
+        {
+            updateAlerts();
+        }
     }
 }

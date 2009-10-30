@@ -65,6 +65,9 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnCheckNow = new System.Windows.Forms.Button();
+            this.checkNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsSystemTrayIcon.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlerts)).BeginInit();
@@ -83,6 +86,8 @@
             // cmsSystemTrayIcon
             // 
             this.cmsSystemTrayIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkNowToolStripMenuItem,
+            this.toolStripSeparator5,
             this.tsmiRestore,
             this.tsmiMinimize,
             this.toolStripSeparator2,
@@ -90,7 +95,7 @@
             this.toolStripSeparator1,
             this.tsmiClose});
             this.cmsSystemTrayIcon.Name = "contextMenuStrip1";
-            this.cmsSystemTrayIcon.Size = new System.Drawing.Size(114, 104);
+            this.cmsSystemTrayIcon.Size = new System.Drawing.Size(128, 132);
             // 
             // tsmiRestore
             // 
@@ -142,7 +147,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(659, 299);
+            this.groupBox1.Size = new System.Drawing.Size(659, 281);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Alert Details";
@@ -160,14 +165,14 @@
             this.dgvAlerts.Location = new System.Drawing.Point(3, 16);
             this.dgvAlerts.Name = "dgvAlerts";
             this.dgvAlerts.ReadOnly = true;
-            this.dgvAlerts.Size = new System.Drawing.Size(653, 280);
+            this.dgvAlerts.Size = new System.Drawing.Size(653, 262);
             this.dgvAlerts.TabIndex = 3;
             // 
             // lblAlerts
             // 
             this.lblAlerts.AutoSize = true;
             this.lblAlerts.BackColor = System.Drawing.Color.LimeGreen;
-            this.lblAlerts.Location = new System.Drawing.Point(76, 0);
+            this.lblAlerts.Location = new System.Drawing.Point(79, 8);
             this.lblAlerts.Name = "lblAlerts";
             this.lblAlerts.Size = new System.Drawing.Size(28, 13);
             this.lblAlerts.TabIndex = 2;
@@ -176,7 +181,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Location = new System.Drawing.Point(3, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 1;
@@ -184,6 +189,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnCheckNow);
             this.panel1.Controls.Add(this.lblLastCheck);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.lblCheckInterval);
@@ -192,13 +198,13 @@
             this.panel1.Controls.Add(this.lblAlerts);
             this.panel1.Location = new System.Drawing.Point(12, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(659, 16);
+            this.panel1.Size = new System.Drawing.Size(659, 34);
             this.panel1.TabIndex = 5;
             // 
             // lblLastCheck
             // 
             this.lblLastCheck.AutoSize = true;
-            this.lblLastCheck.Location = new System.Drawing.Point(515, 0);
+            this.lblLastCheck.Location = new System.Drawing.Point(422, 8);
             this.lblLastCheck.Name = "lblLastCheck";
             this.lblLastCheck.Size = new System.Drawing.Size(141, 13);
             this.lblLastCheck.TabIndex = 6;
@@ -207,7 +213,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(448, 0);
+            this.label3.Location = new System.Drawing.Point(355, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 13);
             this.label3.TabIndex = 5;
@@ -216,7 +222,7 @@
             // lblCheckInterval
             // 
             this.lblCheckInterval.AutoSize = true;
-            this.lblCheckInterval.Location = new System.Drawing.Point(383, 0);
+            this.lblCheckInterval.Location = new System.Drawing.Point(300, 8);
             this.lblCheckInterval.Name = "lblCheckInterval";
             this.lblCheckInterval.Size = new System.Drawing.Size(28, 13);
             this.lblCheckInterval.TabIndex = 4;
@@ -225,11 +231,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(301, 0);
+            this.label2.Location = new System.Drawing.Point(169, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 13);
+            this.label2.Size = new System.Drawing.Size(125, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Check Interval";
+            this.label2.Text = "Check Interval (seconds)";
             // 
             // panel2
             // 
@@ -237,9 +243,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Location = new System.Drawing.Point(12, 49);
+            this.panel2.Location = new System.Drawing.Point(12, 67);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(659, 299);
+            this.panel2.Size = new System.Drawing.Size(659, 281);
             this.panel2.TabIndex = 6;
             // 
             // menuStrip1
@@ -373,6 +379,28 @@
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // btnCheckNow
+            // 
+            this.btnCheckNow.Location = new System.Drawing.Point(581, 3);
+            this.btnCheckNow.Name = "btnCheckNow";
+            this.btnCheckNow.Size = new System.Drawing.Size(75, 23);
+            this.btnCheckNow.TabIndex = 7;
+            this.btnCheckNow.Text = "Check Now";
+            this.btnCheckNow.UseVisualStyleBackColor = true;
+            this.btnCheckNow.Click += new System.EventHandler(this.btnCheckNow_Click);
+            // 
+            // checkNowToolStripMenuItem
+            // 
+            this.checkNowToolStripMenuItem.Name = "checkNowToolStripMenuItem";
+            this.checkNowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.checkNowToolStripMenuItem.Text = "Check &Now";
+            this.checkNowToolStripMenuItem.Click += new System.EventHandler(this.checkNowToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -436,6 +464,9 @@
         private System.Windows.Forms.Label lblLastCheck;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblCheckInterval;
+        private System.Windows.Forms.Button btnCheckNow;
+        private System.Windows.Forms.ToolStripMenuItem checkNowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 
