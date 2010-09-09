@@ -70,7 +70,6 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblColorString = new System.Windows.Forms.Label();
             this.cmsSystemTrayIcon.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlerts)).BeginInit();
@@ -204,7 +203,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.lblColorString);
             this.panel1.Controls.Add(this.lblMinPriority);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.btnCheckNow);
@@ -426,16 +424,6 @@
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // lblColorString
-            // 
-            this.lblColorString.AutoSize = true;
-            this.lblColorString.BackColor = System.Drawing.SystemColors.Control;
-            this.lblColorString.Location = new System.Drawing.Point(169, 30);
-            this.lblColorString.Name = "lblColorString";
-            this.lblColorString.Size = new System.Drawing.Size(77, 13);
-            this.lblColorString.TabIndex = 10;
-            this.lblColorString.Text = "##########";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -504,7 +492,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.Label lblMinPriority;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lblColorString;
     }
 }
 
