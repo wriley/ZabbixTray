@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,7 +34,11 @@ namespace ZabbixTray
         private string dbUsername = null;
         private string dbPassword = null;
         private int checkInterval = 60;
+        private int minPriority = 3;
         private bool showAck = true;
+
+        Hashtable priorityValues = new Hashtable();
+        Hashtable priorityColors = new Hashtable();
 
         private MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
         private MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
@@ -46,6 +51,19 @@ namespace ZabbixTray
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+
+            priorityValues.Add(1, "Information");
+            priorityValues.Add(2, "Warning");
+            priorityValues.Add(3, "Average");
+            priorityValues.Add(4, "High");
+            priorityValues.Add(5, "Disaster");
+
+            priorityColors.Add(1, "bbe2bb");
+            priorityColors.Add(2, "efefcc");
+            priorityColors.Add(3, "ddaaaa");
+            priorityColors.Add(4, "ff8888");
+            priorityColors.Add(5, "ff0000");
+
             ifr = new IniFileReader(myIniFileName);
             ifr.OutputFilename = myIniFileName;
             loadSettings();
@@ -95,6 +113,12 @@ namespace ZabbixTray
             get { return checkInterval; }
         }
 
+        public int MinPriority
+        {
+            set { minPriority = value; }
+            get { return minPriority; }
+        }
+
         public bool ShowAck
         {
             set { showAck = value; }
@@ -110,6 +134,7 @@ namespace ZabbixTray
                 dbUsername = ifr.GetIniValue(myIniFileSectionName, "dbUsername");
                 dbPassword = ifr.GetIniValue(myIniFileSectionName, "dbPassword");
                 checkInterval = Int32.Parse(ifr.GetIniValue(myIniFileSectionName, "checkInterval"));
+                minPriority = Int32.Parse(ifr.GetIniValue(myIniFileSectionName, "minPriority"));
                 showAck = bool.Parse(ifr.GetIniValue(myIniFileSectionName, "showAck"));
             }
             catch (Exception)
@@ -124,6 +149,7 @@ namespace ZabbixTray
             ifr.SetIniValue(myIniFileSectionName, "dbUsername", dbUsername);
             ifr.SetIniValue(myIniFileSectionName, "dbPassword", dbPassword);
             ifr.SetIniValue(myIniFileSectionName, "checkInterval", checkInterval.ToString());
+            ifr.SetIniValue(myIniFileSectionName, "minPriority", minPriority.ToString());
             ifr.SetIniValue(myIniFileSectionName, "showAck", showAck.ToString());
             ifr.Save();
         }
@@ -186,7 +212,7 @@ namespace ZabbixTray
             DataTable table = new DataTable();
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
 
-            string commandString = "SELECT DISTINCT h.host,t.priority,t.description,e.acknowledged FROM triggers t LEFT JOIN functions f ON f.triggerid = t.triggerid LEFT JOIN items i ON i.itemid = f.itemid LEFT JOIN hosts h ON h.hostid = i.hostid LEFT JOIN events e ON e.clock = t.lastchange WHERE t.value = 1 AND t.status = 0";
+            string commandString = "SELECT DISTINCT h.host,t.priority,t.description,e.acknowledged FROM triggers t LEFT JOIN functions f ON f.triggerid = t.triggerid LEFT JOIN items i ON i.itemid = f.itemid LEFT JOIN hosts h ON h.hostid = i.hostid LEFT JOIN events e ON e.clock = t.lastchange WHERE t.value = 1 AND t.status = 0 AND t.priority >= " + minPriority.ToString() + " AND h.status = 0 AND h.maintenance_status = 0";
             if (showAck)
             {
                 commandString += " AND e.acknowledged > -1";
@@ -246,6 +272,43 @@ namespace ZabbixTray
                 }
 
                 lblLastCheck.Text = DateTime.Now.ToLocalTime().ToString();
+            }
+
+            lblMinPriority.Text = getPriorityValue(minPriority);
+            Int32 ir, ig, ib;
+            String colorString = priorityColors[minPriority].ToString();
+            ir = Int32.Parse(colorString.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+            ig = Int32.Parse(colorString.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+            ib = Int32.Parse(colorString.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            lblMinPriority.BackColor = Color.FromArgb(ir, ig, ib);
+        }
+
+        public int getPriorityKey(string val)
+        {
+            if (priorityValues.ContainsValue(val))
+            {
+                IDictionaryEnumerator ide = priorityValues.GetEnumerator();
+                while (ide.MoveNext())
+                {
+                    if (ide.Value.Equals(val))
+                    {
+                        return Int32.Parse(ide.Key.ToString());
+                    }
+                }
+            }
+
+            return 3;
+        }
+
+        public string getPriorityValue(int key)
+        {
+            if (priorityValues.ContainsKey(key))
+            {
+                return priorityValues[key].ToString();
+            }
+            else
+            {
+                return "Warning";
             }
         }
 

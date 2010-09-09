@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.systemTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmsSystemTrayIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.checkNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiRestore = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiMinimize = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -44,6 +46,9 @@
             this.lblAlerts = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblMinPriority = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnCheckNow = new System.Windows.Forms.Button();
             this.lblLastCheck = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblCheckInterval = new System.Windows.Forms.Label();
@@ -65,9 +70,7 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnCheckNow = new System.Windows.Forms.Button();
-            this.checkNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblColorString = new System.Windows.Forms.Label();
             this.cmsSystemTrayIcon.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlerts)).BeginInit();
@@ -96,6 +99,18 @@
             this.tsmiClose});
             this.cmsSystemTrayIcon.Name = "contextMenuStrip1";
             this.cmsSystemTrayIcon.Size = new System.Drawing.Size(128, 132);
+            // 
+            // checkNowToolStripMenuItem
+            // 
+            this.checkNowToolStripMenuItem.Name = "checkNowToolStripMenuItem";
+            this.checkNowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.checkNowToolStripMenuItem.Text = "Check &Now";
+            this.checkNowToolStripMenuItem.Click += new System.EventHandler(this.checkNowToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
             // 
             // tsmiRestore
             // 
@@ -147,7 +162,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(659, 281);
+            this.groupBox1.Size = new System.Drawing.Size(659, 371);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Alert Details";
@@ -165,7 +180,7 @@
             this.dgvAlerts.Location = new System.Drawing.Point(3, 16);
             this.dgvAlerts.Name = "dgvAlerts";
             this.dgvAlerts.ReadOnly = true;
-            this.dgvAlerts.Size = new System.Drawing.Size(653, 262);
+            this.dgvAlerts.Size = new System.Drawing.Size(653, 352);
             this.dgvAlerts.TabIndex = 3;
             // 
             // lblAlerts
@@ -189,6 +204,9 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lblColorString);
+            this.panel1.Controls.Add(this.lblMinPriority);
+            this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.btnCheckNow);
             this.panel1.Controls.Add(this.lblLastCheck);
             this.panel1.Controls.Add(this.label3);
@@ -198,8 +216,37 @@
             this.panel1.Controls.Add(this.lblAlerts);
             this.panel1.Location = new System.Drawing.Point(12, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(659, 34);
+            this.panel1.Size = new System.Drawing.Size(659, 54);
             this.panel1.TabIndex = 5;
+            // 
+            // lblMinPriority
+            // 
+            this.lblMinPriority.AutoSize = true;
+            this.lblMinPriority.BackColor = System.Drawing.SystemColors.Control;
+            this.lblMinPriority.Location = new System.Drawing.Point(91, 30);
+            this.lblMinPriority.Name = "lblMinPriority";
+            this.lblMinPriority.Size = new System.Drawing.Size(47, 13);
+            this.lblMinPriority.TabIndex = 9;
+            this.lblMinPriority.Text = "Warning";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Minimum Priority";
+            // 
+            // btnCheckNow
+            // 
+            this.btnCheckNow.Location = new System.Drawing.Point(581, 3);
+            this.btnCheckNow.Name = "btnCheckNow";
+            this.btnCheckNow.Size = new System.Drawing.Size(75, 23);
+            this.btnCheckNow.TabIndex = 7;
+            this.btnCheckNow.Text = "Check Now";
+            this.btnCheckNow.UseVisualStyleBackColor = true;
+            this.btnCheckNow.Click += new System.EventHandler(this.btnCheckNow_Click);
             // 
             // lblLastCheck
             // 
@@ -243,9 +290,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Location = new System.Drawing.Point(12, 67);
+            this.panel2.Location = new System.Drawing.Point(12, 87);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(659, 281);
+            this.panel2.Size = new System.Drawing.Size(659, 371);
             this.panel2.TabIndex = 6;
             // 
             // menuStrip1
@@ -379,33 +426,21 @@
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // btnCheckNow
+            // lblColorString
             // 
-            this.btnCheckNow.Location = new System.Drawing.Point(581, 3);
-            this.btnCheckNow.Name = "btnCheckNow";
-            this.btnCheckNow.Size = new System.Drawing.Size(75, 23);
-            this.btnCheckNow.TabIndex = 7;
-            this.btnCheckNow.Text = "Check Now";
-            this.btnCheckNow.UseVisualStyleBackColor = true;
-            this.btnCheckNow.Click += new System.EventHandler(this.btnCheckNow_Click);
-            // 
-            // checkNowToolStripMenuItem
-            // 
-            this.checkNowToolStripMenuItem.Name = "checkNowToolStripMenuItem";
-            this.checkNowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.checkNowToolStripMenuItem.Text = "Check &Now";
-            this.checkNowToolStripMenuItem.Click += new System.EventHandler(this.checkNowToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            this.lblColorString.AutoSize = true;
+            this.lblColorString.BackColor = System.Drawing.SystemColors.Control;
+            this.lblColorString.Location = new System.Drawing.Point(169, 30);
+            this.lblColorString.Name = "lblColorString";
+            this.lblColorString.Size = new System.Drawing.Size(77, 13);
+            this.lblColorString.TabIndex = 10;
+            this.lblColorString.Text = "##########";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 360);
+            this.ClientSize = new System.Drawing.Size(683, 470);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
@@ -467,6 +502,9 @@
         private System.Windows.Forms.Button btnCheckNow;
         private System.Windows.Forms.ToolStripMenuItem checkNowToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.Label lblMinPriority;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblColorString;
     }
 }
 

@@ -43,6 +43,8 @@
             this.lblPassword = new System.Windows.Forms.Label();
             this.gbDatabaseOptions = new System.Windows.Forms.GroupBox();
             this.cbShowAck = new System.Windows.Forms.CheckBox();
+            this.cbPriority = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.gbDatabaseOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -186,18 +188,45 @@
             // cbShowAck
             // 
             this.cbShowAck.AutoSize = true;
-            this.cbShowAck.Location = new System.Drawing.Point(122, 183);
+            this.cbShowAck.Location = new System.Drawing.Point(122, 210);
             this.cbShowAck.Name = "cbShowAck";
             this.cbShowAck.Size = new System.Drawing.Size(156, 17);
             this.cbShowAck.TabIndex = 22;
             this.cbShowAck.Text = "Show Acknowledged Alerts";
             this.cbShowAck.UseVisualStyleBackColor = true;
             // 
+            // cbPriority
+            // 
+            this.cbPriority.BackColor = System.Drawing.SystemColors.Window;
+            this.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPriority.FormattingEnabled = true;
+            this.cbPriority.Items.AddRange(new object[] {
+            "Information",
+            "Warning",
+            "Average",
+            "High",
+            "Disaster"});
+            this.cbPriority.Location = new System.Drawing.Point(177, 183);
+            this.cbPriority.Name = "cbPriority";
+            this.cbPriority.Size = new System.Drawing.Size(101, 21);
+            this.cbPriority.TabIndex = 23;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(82, 186);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Minimum Severity";
+            // 
             // frmOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(401, 299);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cbPriority);
             this.Controls.Add(this.cbShowAck);
             this.Controls.Add(this.gbDatabaseOptions);
             this.Controls.Add(this.btnCancel);
@@ -232,5 +261,7 @@
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.GroupBox gbDatabaseOptions;
         private System.Windows.Forms.CheckBox cbShowAck;
+        private System.Windows.Forms.ComboBox cbPriority;
+        private System.Windows.Forms.Label label1;
     }
 }

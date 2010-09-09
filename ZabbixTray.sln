@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZabbixTray", "ZabbixTray.csproj", "{6634604D-0A90-4DC1-9AB6-F2902B6B72E3}"
 EndProject
 Global

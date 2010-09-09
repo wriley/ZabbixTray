@@ -14,12 +14,14 @@ namespace ZabbixTray
     public partial class frmOptions : Form
     {
         frmMain parentForm;
+        
 
         public frmOptions(frmMain frm)
         {
             InitializeComponent();
             parentForm = new frmMain();
             parentForm = frm;
+            
         }
 
         private void frmOptions_Load(object sender, EventArgs e)
@@ -29,6 +31,7 @@ namespace ZabbixTray
             tbUsername.Text = parentForm.DbUsername;
             tbPassword.Text = parentForm.DbPassword;
             cbInterval.SelectedIndex = cbInterval.Items.IndexOf(parentForm.CheckInterval.ToString());
+            cbPriority.SelectedIndex = cbPriority.Items.IndexOf(parentForm.getPriorityValue(parentForm.MinPriority));
             if (parentForm.ShowAck)
             {
                 cbShowAck.Checked = true;
@@ -39,6 +42,8 @@ namespace ZabbixTray
             }
         }
 
+        
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             parentForm.DbServer = tbServer.Text;
@@ -46,6 +51,7 @@ namespace ZabbixTray
             parentForm.DbUsername = tbUsername.Text;
             parentForm.DbPassword = tbPassword.Text;
             parentForm.CheckInterval = Int32.Parse(cbInterval.SelectedItem.ToString());
+            parentForm.MinPriority = parentForm.getPriorityKey(cbPriority.SelectedItem.ToString());
             parentForm.ShowAck = cbShowAck.Checked;
             parentForm.saveSettings();
             parentForm.updateAlerts();
