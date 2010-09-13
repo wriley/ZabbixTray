@@ -45,6 +45,7 @@
             this.cbShowAck = new System.Windows.Forms.CheckBox();
             this.cbPriority = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.cbShowPopup = new System.Windows.Forms.CheckBox();
             this.gbDatabaseOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -220,11 +221,22 @@
             this.label1.TabIndex = 24;
             this.label1.Text = "Minimum Severity";
             // 
+            // cbShowPopup
+            // 
+            this.cbShowPopup.AutoSize = true;
+            this.cbShowPopup.Location = new System.Drawing.Point(122, 233);
+            this.cbShowPopup.Name = "cbShowPopup";
+            this.cbShowPopup.Size = new System.Drawing.Size(133, 17);
+            this.cbShowPopup.TabIndex = 25;
+            this.cbShowPopup.Text = "Show Pop-up for alerts";
+            this.cbShowPopup.UseVisualStyleBackColor = true;
+            // 
             // frmOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(401, 299);
+            this.Controls.Add(this.cbShowPopup);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbPriority);
             this.Controls.Add(this.cbShowAck);
@@ -263,5 +275,6 @@
         private System.Windows.Forms.CheckBox cbShowAck;
         private System.Windows.Forms.ComboBox cbPriority;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox cbShowPopup;
     }
 }

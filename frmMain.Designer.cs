@@ -97,7 +97,8 @@
             this.toolStripSeparator1,
             this.tsmiClose});
             this.cmsSystemTrayIcon.Name = "contextMenuStrip1";
-            this.cmsSystemTrayIcon.Size = new System.Drawing.Size(128, 132);
+            this.cmsSystemTrayIcon.Size = new System.Drawing.Size(153, 154);
+            this.cmsSystemTrayIcon.DoubleClick += new System.EventHandler(this.cmsSystemTrayIcon_DoubleClick);
             // 
             // checkNowToolStripMenuItem
             // 
@@ -114,7 +115,7 @@
             // tsmiRestore
             // 
             this.tsmiRestore.Name = "tsmiRestore";
-            this.tsmiRestore.Size = new System.Drawing.Size(113, 22);
+            this.tsmiRestore.Size = new System.Drawing.Size(152, 22);
             this.tsmiRestore.Text = "&Restore";
             this.tsmiRestore.Visible = false;
             this.tsmiRestore.Click += new System.EventHandler(this.Restore_Click);
@@ -122,31 +123,31 @@
             // tsmiMinimize
             // 
             this.tsmiMinimize.Name = "tsmiMinimize";
-            this.tsmiMinimize.Size = new System.Drawing.Size(113, 22);
+            this.tsmiMinimize.Size = new System.Drawing.Size(152, 22);
             this.tsmiMinimize.Text = "&Minimize";
             this.tsmiMinimize.Click += new System.EventHandler(this.tsmiMinimize_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(110, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // tsmiOptions
             // 
             this.tsmiOptions.Name = "tsmiOptions";
-            this.tsmiOptions.Size = new System.Drawing.Size(113, 22);
+            this.tsmiOptions.Size = new System.Drawing.Size(152, 22);
             this.tsmiOptions.Text = "Options";
             this.tsmiOptions.Click += new System.EventHandler(this.tsmiOptions_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(110, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // tsmiClose
             // 
             this.tsmiClose.Name = "tsmiClose";
-            this.tsmiClose.Size = new System.Drawing.Size(113, 22);
+            this.tsmiClose.Size = new System.Drawing.Size(152, 22);
             this.tsmiClose.Text = "&Close";
             this.tsmiClose.Click += new System.EventHandler(this.CloseApplication_Click);
             // 
@@ -435,6 +436,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
             this.Text = "ZabbixTray";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.cmsSystemTrayIcon.ResumeLayout(false);

@@ -36,6 +36,7 @@ namespace ZabbixTray
         private int checkInterval = 60;
         private int minPriority = 3;
         private bool showAck = true;
+        private bool showPopup = true;
 
         Hashtable priorityValues = new Hashtable();
         Hashtable priorityColors = new Hashtable();
@@ -125,6 +126,12 @@ namespace ZabbixTray
             get { return showAck; }
         }
 
+        public bool ShowPopup
+        {
+            set { showPopup = value; }
+            get { return showPopup; }
+        }
+
         private void loadSettings()
         {
             try
@@ -136,6 +143,7 @@ namespace ZabbixTray
                 checkInterval = Int32.Parse(ifr.GetIniValue(myIniFileSectionName, "checkInterval"));
                 minPriority = Int32.Parse(ifr.GetIniValue(myIniFileSectionName, "minPriority"));
                 showAck = bool.Parse(ifr.GetIniValue(myIniFileSectionName, "showAck"));
+                showPopup = bool.Parse(ifr.GetIniValue(myIniFileSectionName, "showPopup"));
             }
             catch (Exception)
             {
@@ -151,6 +159,7 @@ namespace ZabbixTray
             ifr.SetIniValue(myIniFileSectionName, "checkInterval", checkInterval.ToString());
             ifr.SetIniValue(myIniFileSectionName, "minPriority", minPriority.ToString());
             ifr.SetIniValue(myIniFileSectionName, "showAck", showAck.ToString());
+            ifr.SetIniValue(myIniFileSectionName, "showPopup", showPopup.ToString());
             ifr.Save();
         }
 
@@ -163,7 +172,7 @@ namespace ZabbixTray
         {
             if (FormWindowState.Minimized == WindowState)
             {
-                Hide();
+                minimizeMe();
             }
         }
 
@@ -202,7 +211,7 @@ namespace ZabbixTray
 
         private void CloseApplication_Click(object sender, EventArgs e)
         {
-            Close();
+            Application.Exit();
         }
 
         private DataTable getData()
@@ -262,7 +271,10 @@ namespace ZabbixTray
                 if (numAlerts > 0)
                 {
                     lblAlerts.BackColor = COLOR_ALERT;
-                    showBalloon();
+                    if(showPopup)
+{
+                        showBalloon();
+                    }
                     setIcon(ICON_ALERT);
                 }
                 else
@@ -329,7 +341,7 @@ namespace ZabbixTray
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            Application.Exit();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -358,6 +370,20 @@ namespace ZabbixTray
         private void btnCheckNow_Click(object sender, EventArgs e)
         {
             updateAlerts();
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                minimizeMe();
+            }
+        }
+
+        private void cmsSystemTrayIcon_DoubleClick(object sender, EventArgs e)
+        {
+            restoreMe();
         }
     }
 }

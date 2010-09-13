@@ -40,6 +40,14 @@ namespace ZabbixTray
             {
                 cbShowAck.Checked = false;
             }
+            if (parentForm.ShowPopup)
+            {
+                cbShowPopup.Checked = true;
+            }
+            else
+            {
+                cbShowPopup.Checked = false;
+            }
         }
 
         
@@ -53,6 +61,7 @@ namespace ZabbixTray
             parentForm.CheckInterval = Int32.Parse(cbInterval.SelectedItem.ToString());
             parentForm.MinPriority = parentForm.getPriorityKey(cbPriority.SelectedItem.ToString());
             parentForm.ShowAck = cbShowAck.Checked;
+            parentForm.ShowPopup = cbShowPopup.Checked;
             parentForm.saveSettings();
             parentForm.updateAlerts();
             this.Dispose();
