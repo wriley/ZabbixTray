@@ -260,6 +260,7 @@ namespace ZabbixTray
             {
                 lblAlerts.BackColor = COLOR_ERROR;
                 lblLastCheck.Text = "ERROR";
+                setIcon(ICON_OFF);
             }
             else
             {
