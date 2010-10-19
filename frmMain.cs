@@ -218,18 +218,10 @@ namespace ZabbixTray
         {
             conn.ConnectionString = String.Format("server={0};uid={1};pwd={2};database={3};", dbServer, dbUsername, dbPassword, dbDatabase);
 
-            DataTable table = new DataTable();
-            table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+            DataSet results = new DataSet();
 
-            string commandString = "SELECT DISTINCT h.host,t.priority,t.description,e.acknowledged FROM triggers t LEFT JOIN functions f ON f.triggerid = t.triggerid LEFT JOIN items i ON i.itemid = f.itemid LEFT JOIN hosts h ON h.hostid = i.hostid LEFT JOIN events e ON e.clock = t.lastchange WHERE t.value = 1 AND t.status = 0 AND t.priority >= " + minPriority.ToString() + " AND h.status = 0 AND h.maintenance_status = 0";
-            if (showAck)
-            {
-                commandString += " AND e.acknowledged > -1";
-            }
-            else
-            {
-                commandString += " AND e.acknowledged = 0";
-            }
+            //string commandString = "SELECT DISTINCT t.triggerid,t.description,t.priority FROM triggers t WHERE ((t.triggerid  BETWEEN 000000000000000 AND 099999999999999)) AND  NOT EXISTS ( SELECT ff.functionid FROM functions ff WHERE ff.triggerid=t.triggerid AND EXISTS ( SELECT ii.itemid FROM items ii, hosts hh WHERE ff.itemid=ii.itemid AND hh.hostid=ii.hostid AND ( ii.status<>0 OR hh.status<>0 ) ) ) AND t.status=0 AND t.value=1 AND t.priority >= " + minPriority.ToString() + " ORDER BY t.lastchange DESC";
+            string commandString = "SELECT DISTINCT h.host,t.description,t.priority,t.triggerid FROM triggers t,functions f,items i,hosts h WHERE ((t.triggerid  BETWEEN 000000000000000 AND 099999999999999)) AND  NOT EXISTS ( SELECT ff.functionid FROM functions ff WHERE ff.triggerid=t.triggerid AND EXISTS ( SELECT ii.itemid FROM items ii, hosts hh WHERE ff.itemid=ii.itemid AND hh.hostid=ii.hostid AND ( ii.status<>0 OR hh.status<>0 ) ) ) AND t.status=0 AND t.value=1 AND f.triggerid=t.triggerid AND f.itemid=i.itemid AND h.hostid=i.hostid AND t.priority >= " + minPriority.ToString() + " ORDER BY t.lastchange DESC";
 
             try
             {
@@ -237,15 +229,47 @@ namespace ZabbixTray
                 cmd.Connection = conn;
 
                 myAdapter.SelectCommand = cmd;
-                myAdapter.Fill(table);
+                myAdapter.Fill(results);
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
                 systemTrayIcon.ShowBalloonTip(5000, null, "Error: " + ex.Message.ToString(), ToolTipIcon.Error);
                 return null;
             }
-                        
-            return table;
+
+            results.Tables[0].Columns.Add("severity");
+
+            foreach (DataRow dr in results.Tables[0].Rows)
+            {
+                if (!showAck)
+                {
+                    commandString = "SELECT e.acknowledged FROM events e WHERE e.object=0 AND e.objectid=" + dr["triggerid"].ToString() + " AND e.value=1 ORDER by e.object DESC, e.objectid DESC, e.eventid DESC LIMIT 1 OFFSET 0";
+                    cmd.CommandText = commandString;
+                    cmd.Connection = conn;
+
+                    myAdapter.SelectCommand = cmd;
+                    DataSet ds = new DataSet();
+                    myAdapter.Fill(ds);
+                    foreach (DataRow dsdr in ds.Tables[0].Rows)
+                    {
+                        if (dsdr[0].ToString() == "1")
+                        {
+                            dr.Delete();
+                        }
+                    }
+                }
+
+                if (dr.RowState != DataRowState.Deleted)
+                {
+                    dr["description"] = dr["description"].ToString().Replace("{HOSTNAME}", dr["host"].ToString());
+                    dr["severity"] = getPriorityValue(Int32.Parse(dr["priority"].ToString()));
+                }
+            }
+            results.Tables[0].Columns.Remove("triggerid");
+            results.Tables[0].Columns.Remove("host");
+            results.Tables[0].Columns.Remove("priority");
+            results.AcceptChanges();
+            return results.Tables[0];
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -266,14 +290,16 @@ namespace ZabbixTray
             {
                 bindingSource1.DataSource = dtAlerts;
                 dgvAlerts.DataSource = bindingSource1;
-                numAlerts = dtAlerts.Rows.Count;
+                DataView dv = new DataView(dtAlerts);
+                dv.RowStateFilter = DataViewRowState.CurrentRows;
+                numAlerts = dv.Count;
                 lblAlerts.Text = numAlerts.ToString();
 
                 if (numAlerts > 0)
                 {
                     lblAlerts.BackColor = COLOR_ALERT;
-                    if(showPopup)
-{
+                    if (showPopup)
+                    {
                         showBalloon();
                     }
                     setIcon(ICON_ALERT);
@@ -350,7 +376,7 @@ namespace ZabbixTray
             frmAbout fa = new frmAbout();
             fa.ShowDialog(this);
         }
-        
+
         private void tsmiOptions_Click(object sender, EventArgs e)
         {
             frmOptions fo = new frmOptions(this);
