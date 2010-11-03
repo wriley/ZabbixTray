@@ -59,5 +59,54 @@ namespace ZabbixTray.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Icon icon_average {
+            get {
+                object obj = ResourceManager.GetObject("icon_average", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon icon_disaster {
+            get {
+                object obj = ResourceManager.GetObject("icon_disaster", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon icon_high {
+            get {
+                object obj = ResourceManager.GetObject("icon_high", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon icon_information {
+            get {
+                object obj = ResourceManager.GetObject("icon_information", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon icon_normal {
+            get {
+                object obj = ResourceManager.GetObject("icon_normal", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon icon_off {
+            get {
+                object obj = ResourceManager.GetObject("icon_off", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon icon_warning {
+            get {
+                object obj = ResourceManager.GetObject("icon_warning", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

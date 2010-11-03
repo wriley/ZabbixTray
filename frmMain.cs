@@ -13,26 +13,30 @@ namespace ZabbixTray
 {
     public partial class frmMain : Form
     {
-        private static string ICON_OFF = "ZabbixTray.ztIcon_off.ico";
-        private static string ICON_OK = "ZabbixTray.ztIcon_ok.ico";
-        private static string ICON_ALERT = "ZabbixTray.ztIcon_alert.ico";
+        private static string[] icon_names = {
+            "ZabbixTray.icon_off.ico",
+            "ZabbixTray.icon_information.ico",
+            "ZabbixTray.icon_warning.ico",
+            "ZabbixTray.icon_average.ico",
+            "ZabbixTray.icon_high.ico",
+            "ZabbixTray.icon_disaster.ico",
+            "ZabbixTray.icon_normal.ico",
+        };
 
         private static string myIniFileName = "ZabbixTray.ini";
         private static string myIniFileSectionName = "ZabbixTray";
         private IniFileReader ifr;
 
-        private static Color COLOR_OK = Color.LimeGreen;
-        private static Color COLOR_ALERT = Color.LightCoral;
-        private static Color COLOR_ERROR = Color.Yellow;
-
         private static BindingSource bindingSource1 = new BindingSource();
         private DataTable dtAlerts;
         private int numAlerts = 0;
+        private int highestPriority = 0;
 
         private string dbServer = null;
         private string dbDatabase = null;
         private string dbUsername = null;
         private string dbPassword = null;
+
         private int checkInterval = 60;
         private int minPriority = 3;
         private bool showAck = true;
@@ -52,23 +56,24 @@ namespace ZabbixTray
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-
             priorityValues.Add(1, "Information");
             priorityValues.Add(2, "Warning");
             priorityValues.Add(3, "Average");
             priorityValues.Add(4, "High");
             priorityValues.Add(5, "Disaster");
 
+            priorityColors.Add(0, "cecece");
             priorityColors.Add(1, "bbe2bb");
             priorityColors.Add(2, "efefcc");
             priorityColors.Add(3, "ddaaaa");
             priorityColors.Add(4, "ff8888");
             priorityColors.Add(5, "ff0000");
+            priorityColors.Add(6, "aaffaa");
 
             ifr = new IniFileReader(myIniFileName);
             ifr.OutputFilename = myIniFileName;
             loadSettings();
-            setIcon(ICON_OFF);
+            setIcon(0);
             lblCheckInterval.Text = checkInterval.ToString();
             tmrMySQL.Interval = (checkInterval * 1000);
             lblAlerts.Text = "";
@@ -163,8 +168,9 @@ namespace ZabbixTray
             ifr.Save();
         }
 
-        private void setIcon(string strName)
+        private void setIcon(int p)
         {
+            String strName = icon_names[p];
             systemTrayIcon.Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(strName));
         }
 
@@ -220,8 +226,7 @@ namespace ZabbixTray
 
             DataSet results = new DataSet();
 
-            //string commandString = "SELECT DISTINCT t.triggerid,t.description,t.priority FROM triggers t WHERE ((t.triggerid  BETWEEN 000000000000000 AND 099999999999999)) AND  NOT EXISTS ( SELECT ff.functionid FROM functions ff WHERE ff.triggerid=t.triggerid AND EXISTS ( SELECT ii.itemid FROM items ii, hosts hh WHERE ff.itemid=ii.itemid AND hh.hostid=ii.hostid AND ( ii.status<>0 OR hh.status<>0 ) ) ) AND t.status=0 AND t.value=1 AND t.priority >= " + minPriority.ToString() + " ORDER BY t.lastchange DESC";
-            string commandString = "SELECT DISTINCT h.host,t.description,t.priority,t.triggerid FROM triggers t,functions f,items i,hosts h WHERE ((t.triggerid  BETWEEN 000000000000000 AND 099999999999999)) AND  NOT EXISTS ( SELECT ff.functionid FROM functions ff WHERE ff.triggerid=t.triggerid AND EXISTS ( SELECT ii.itemid FROM items ii, hosts hh WHERE ff.itemid=ii.itemid AND hh.hostid=ii.hostid AND ( ii.status<>0 OR hh.status<>0 ) ) ) AND t.status=0 AND t.value=1 AND f.triggerid=t.triggerid AND f.itemid=i.itemid AND h.hostid=i.hostid AND t.priority >= " + minPriority.ToString() + " ORDER BY t.lastchange DESC";
+            string commandString = "SELECT DISTINCT h.host,t.description,t.priority,t.triggerid FROM triggers t,functions f,items i,hosts h WHERE ((t.triggerid  BETWEEN 000000000000000 AND 099999999999999)) AND  NOT EXISTS ( SELECT ff.functionid FROM functions ff WHERE ff.triggerid=t.triggerid AND EXISTS ( SELECT ii.itemid FROM items ii, hosts hh WHERE ff.itemid=ii.itemid AND hh.hostid=ii.hostid AND ( ii.status<>0 OR hh.status<>0 ) ) ) AND t.status=0 AND t.value=1 AND f.triggerid=t.triggerid AND f.itemid=i.itemid AND h.hostid=i.hostid AND h.maintenance_status = 0 AND t.priority >= " + minPriority.ToString() + " ORDER BY t.lastchange DESC";
 
             try
             {
@@ -261,8 +266,14 @@ namespace ZabbixTray
 
                 if (dr.RowState != DataRowState.Deleted)
                 {
+                    int highP = 0;
                     dr["description"] = dr["description"].ToString().Replace("{HOSTNAME}", dr["host"].ToString());
                     dr["severity"] = getPriorityValue(Int32.Parse(dr["priority"].ToString()));
+                    if (Int32.Parse(dr["priority"].ToString()) > highP)
+                    {
+                        highP = Int32.Parse(dr["priority"].ToString());
+                    }
+                    highestPriority = highP;
                 }
             }
             results.Tables[0].Columns.Remove("triggerid");
@@ -277,14 +288,24 @@ namespace ZabbixTray
             updateAlerts();
         }
 
+        public Color priorityToColor(int p)
+        {
+            Int32 ir, ig, ib;
+            String colorString = priorityColors[p].ToString();
+            ir = Int32.Parse(colorString.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+            ig = Int32.Parse(colorString.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+            ib = Int32.Parse(colorString.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            return Color.FromArgb(ir, ig, ib);
+        }
+
         public void updateAlerts()
         {
             dtAlerts = getData();
             if (dtAlerts == null)
             {
-                lblAlerts.BackColor = COLOR_ERROR;
+                lblAlerts.BackColor = priorityToColor(0);
                 lblLastCheck.Text = "ERROR";
-                setIcon(ICON_OFF);
+                setIcon(0);
             }
             else
             {
@@ -297,29 +318,24 @@ namespace ZabbixTray
 
                 if (numAlerts > 0)
                 {
-                    lblAlerts.BackColor = COLOR_ALERT;
+                    lblAlerts.BackColor = priorityToColor(highestPriority);
                     if (showPopup)
                     {
                         showBalloon();
                     }
-                    setIcon(ICON_ALERT);
+                    setIcon(highestPriority);
                 }
                 else
                 {
-                    lblAlerts.BackColor = COLOR_OK;
-                    setIcon(ICON_OK);
+                    lblAlerts.BackColor = priorityToColor(6);
+                    setIcon(6);
                 }
 
                 lblLastCheck.Text = DateTime.Now.ToLocalTime().ToString();
             }
 
             lblMinPriority.Text = getPriorityValue(minPriority);
-            Int32 ir, ig, ib;
-            String colorString = priorityColors[minPriority].ToString();
-            ir = Int32.Parse(colorString.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
-            ig = Int32.Parse(colorString.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
-            ib = Int32.Parse(colorString.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
-            lblMinPriority.BackColor = Color.FromArgb(ir, ig, ib);
+            lblMinPriority.BackColor = priorityToColor(minPriority);
         }
 
         public int getPriorityKey(string val)

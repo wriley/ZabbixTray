@@ -51,12 +51,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ztIcon_ok.ico</ApplicationIcon>
+    <ApplicationIcon>icon_normal.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.3.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\MySQL\MySQL Connector Net 6.3.4\Assemblies\v2.0\MySql.Data.dll</HintPath>
+      <HintPath>lib\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -129,9 +129,6 @@
     <EmbeddedResource Include="frmOptions.resx">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ztIcon_alert.ico" />
-    <EmbeddedResource Include="ztIcon_off.ico" />
-    <EmbeddedResource Include="ztIcon_ok.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -154,6 +151,15 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icon_off.ico" />
+    <EmbeddedResource Include="icon_information.ico" />
+    <EmbeddedResource Include="icon_high.ico" />
+    <EmbeddedResource Include="icon_disaster.ico" />
+    <EmbeddedResource Include="icon_warning.ico" />
+    <EmbeddedResource Include="icon_average.ico" />
+    <EmbeddedResource Include="icon_normal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
