@@ -54,11 +54,6 @@
     <ApplicationIcon>icon_normal.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.3.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\MySql.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -74,10 +69,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ZabbixAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\ZabbixAPI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frmAbout.cs">
@@ -99,7 +90,6 @@
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Ini.cs" />
-    <Compile Include="MySQL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
@@ -164,6 +154,12 @@
     <EmbeddedResource Include="icon_warning.ico" />
     <EmbeddedResource Include="icon_average.ico" />
     <EmbeddedResource Include="icon_normal.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="ZabbixAPI.csproj">
+      <Project>{301B6E7E-ADDC-4D12-91FC-F828932B53BB}</Project>
+      <Name>ZabbixAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

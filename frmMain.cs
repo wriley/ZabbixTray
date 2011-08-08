@@ -301,7 +301,7 @@ namespace ZabbixTray
             dtTriggers.Columns.Add("Priority", typeof(string));
             dtTriggers.Columns.Add("Last Change", typeof(DateTime));
 
-            if (zApi != null && zApi.triggers.Count() > 0)
+            if (zApi != null && zApi.triggers[0] != null && zApi.triggers.Count() > 0)
             {
                 foreach (Trigger tr in zApi.triggers)
                 {
@@ -482,6 +482,12 @@ namespace ZabbixTray
             {
                 zApi.stop();
             }
+        }
+
+        public void reset()
+        {
+            Disconnect();
+            Connect();
         }
 
         private void updateInfo(UpdateInfoMessage info)

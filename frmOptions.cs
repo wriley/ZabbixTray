@@ -60,6 +60,7 @@ namespace ZabbixTray
             parentForm.ShowAck = cbShowAck.Checked;
             parentForm.ShowPopup = cbShowPopup.Checked;
             parentForm.saveSettings();
+            parentForm.reset();
             this.Dispose();
         }
 
