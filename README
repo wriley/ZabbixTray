@@ -1,1 +1,3 @@
 ZabbixTray is a small Windows application that monitors the triggers of a Zabbix server.
+
+The latest release is available at https://github.com/wriley/ZabbixTray/tree/releases/0.3
