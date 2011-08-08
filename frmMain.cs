@@ -7,12 +7,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using IniFile;
+using Ini;
+using Zabbix;
+using System.IO;
 
 namespace ZabbixTray
 {
+    delegate void simplefunc();
+
     public partial class frmMain : Form
     {
+        #region Private
+        private ZabbixAPI zApi;
         private static string[] icon_names = {
             "ZabbixTray.icon_off.ico",
             "ZabbixTray.icon_information.ico",
@@ -22,32 +28,20 @@ namespace ZabbixTray
             "ZabbixTray.icon_disaster.ico",
             "ZabbixTray.icon_normal.ico",
         };
-
-        private static string myIniFileName = "ZabbixTray.ini";
-        private static string myIniFileSectionName = "ZabbixTray";
-        private IniFileReader ifr;
-
-        private static BindingSource bindingSource1 = new BindingSource();
-        private DataTable dtAlerts;
+        private static BindingSource bsTriggers = new BindingSource();
         private int numAlerts = 0;
         private int highestPriority = 0;
-
-        private string dbServer = null;
-        private string dbDatabase = null;
-        private string dbUsername = null;
-        private string dbPassword = null;
-
+        private string apiURL = null;
+        private string apiUsername = null;
+        private string apiPassword = null;
         private int checkInterval = 60;
         private int minPriority = 3;
         private bool showAck = true;
         private bool showPopup = true;
-
-        Hashtable priorityValues = new Hashtable();
-        Hashtable priorityColors = new Hashtable();
-
-        private MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection();
-        private MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand();
-        private MySql.Data.MySqlClient.MySqlDataAdapter myAdapter = new MySql.Data.MySqlClient.MySqlDataAdapter();
+        private Hashtable priorityValues = new Hashtable();
+        private Hashtable priorityColors = new Hashtable();
+        private DataGridViewCellStyle[] cellStyles = new DataGridViewCellStyle[6];
+        #endregion
 
         public frmMain()
         {
@@ -70,40 +64,37 @@ namespace ZabbixTray
             priorityColors.Add(5, "ff0000");
             priorityColors.Add(6, "aaffaa");
 
-            ifr = new IniFileReader(myIniFileName);
-            ifr.OutputFilename = myIniFileName;
+            for (int i = 1; i < 6; i++)
+            {
+                cellStyles[i] = new DataGridViewCellStyle();
+                cellStyles[i].BackColor = priorityToColor(i);
+            }
+
             loadSettings();
             setIcon(0);
             lblCheckInterval.Text = checkInterval.ToString();
-            tmrMySQL.Interval = (checkInterval * 1000);
             lblAlerts.Text = "";
             lblLastCheck.Text = "";
-            updateAlerts();
-            tmrMySQL.Enabled = true;
+
+            Connect();
         }
 
-        public string DbServer
+        public string ApiURL
         {
-            set { dbServer = value; }
-            get { return dbServer; }
+            set { apiURL = value; }
+            get { return apiURL; }
         }
 
-        public string DbDatabase
+        public string ApiUsername
         {
-            set { dbDatabase = value; }
-            get { return dbDatabase; }
+            set { apiUsername = value; }
+            get { return apiUsername; }
         }
 
-        public string DbUsername
+        public string ApiPassword
         {
-            set { dbUsername = value; }
-            get { return dbUsername; }
-        }
-
-        public string DbPassword
-        {
-            set { dbPassword = value; }
-            get { return dbPassword; }
+            set { apiPassword = value; }
+            get { return apiPassword; }
         }
 
         public int CheckInterval
@@ -111,9 +102,11 @@ namespace ZabbixTray
             set
             {
                 checkInterval = value;
-                tmrMySQL.Interval = (checkInterval * 1000);
-                tmrMySQL.Start();
                 lblCheckInterval.Text = value.ToString();
+                if (zApi != null)
+                {
+                    zApi.setInterval(checkInterval);
+                }
             }
 
             get { return checkInterval; }
@@ -121,13 +114,33 @@ namespace ZabbixTray
 
         public int MinPriority
         {
-            set { minPriority = value; }
+            set
+            {
+                minPriority = value;
+                if (zApi != null)
+                {
+                    zApi.setMinSeverity(minPriority.ToString());
+                }
+            }
             get { return minPriority; }
         }
 
         public bool ShowAck
         {
-            set { showAck = value; }
+            set {
+                showAck = value;
+                if (zApi != null)
+                {
+                    if (showAck)
+                    {
+                        zApi.setHideAck(0);
+                    }
+                    else
+                    {
+                        zApi.setHideAck(1);
+                    }
+                }
+            }
             get { return showAck; }
         }
 
@@ -139,33 +152,77 @@ namespace ZabbixTray
 
         private void loadSettings()
         {
+            IniFile ini = new IniFile(Directory.GetCurrentDirectory() + "\\ZabbixTray.ini");
+            apiURL = ini.IniReadValue("Options", "apiURL");
+            apiUsername = ini.IniReadValue("Options", "apiUsername");
+            apiPassword = ini.IniReadValue("Options", "apiPassword");
+
             try
             {
-                dbServer = ifr.GetIniValue(myIniFileSectionName, "dbServer");
-                dbDatabase = ifr.GetIniValue(myIniFileSectionName, "dbDatabase");
-                dbUsername = ifr.GetIniValue(myIniFileSectionName, "dbUsername");
-                dbPassword = ifr.GetIniValue(myIniFileSectionName, "dbPassword");
-                checkInterval = Int32.Parse(ifr.GetIniValue(myIniFileSectionName, "checkInterval"));
-                minPriority = Int32.Parse(ifr.GetIniValue(myIniFileSectionName, "minPriority"));
-                showAck = bool.Parse(ifr.GetIniValue(myIniFileSectionName, "showAck"));
-                showPopup = bool.Parse(ifr.GetIniValue(myIniFileSectionName, "showPopup"));
+                checkInterval = Int32.Parse(ini.IniReadValue("Options", "checkInterval"));
+                if (zApi != null)
+                {
+                    zApi.setInterval(checkInterval);
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug("Error parsing checkInterval: " + ex.Message);
+            }
+
+            try
+            {
+                minPriority = Int32.Parse(ini.IniReadValue("Options", "minPriority"));
+                if (zApi != null)
+                {
+                    zApi.setMinSeverity(minPriority.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug("Error parsing minPriority: " + ex.Message);
+            }
+
+            try
+            {
+                showAck = bool.Parse(ini.IniReadValue("Options", "showAck"));
+                if (zApi != null)
+                {
+                    if (showAck)
+                    {
+                        zApi.setHideAck(0);
+                    }
+                    else
+                    {
+                        zApi.setHideAck(1);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug("Error parsing showAck: " + ex.Message);
+            }
+
+            try
+            {
+                showPopup = bool.Parse(ini.IniReadValue("Options", "showPopup"));
+            }
+            catch (Exception ex)
+            {
+                Debug("Error parsing showPopup: " + ex.Message);
             }
         }
 
         public void saveSettings()
         {
-            ifr.SetIniValue(myIniFileSectionName, "dbServer", dbServer);
-            ifr.SetIniValue(myIniFileSectionName, "dbDatabase", dbDatabase);
-            ifr.SetIniValue(myIniFileSectionName, "dbUsername", dbUsername);
-            ifr.SetIniValue(myIniFileSectionName, "dbPassword", dbPassword);
-            ifr.SetIniValue(myIniFileSectionName, "checkInterval", checkInterval.ToString());
-            ifr.SetIniValue(myIniFileSectionName, "minPriority", minPriority.ToString());
-            ifr.SetIniValue(myIniFileSectionName, "showAck", showAck.ToString());
-            ifr.SetIniValue(myIniFileSectionName, "showPopup", showPopup.ToString());
-            ifr.Save();
+            IniFile ini = new IniFile(Directory.GetCurrentDirectory() + "\\ZabbixTray.ini");
+            ini.IniWriteValue("Options", "apiURL", apiURL);
+            ini.IniWriteValue("Options", "apiUsername", apiUsername);
+            ini.IniWriteValue("Options", "apiPassword", apiPassword);
+            ini.IniWriteValue("Options", "checkInterval", checkInterval.ToString());
+            ini.IniWriteValue("Options", "minPriority", minPriority.ToString());
+            ini.IniWriteValue("Options", "showAck", showAck.ToString());
+            ini.IniWriteValue("Options", "showPopup", showPopup.ToString());
         }
 
         private void setIcon(int p)
@@ -215,77 +272,15 @@ namespace ZabbixTray
             tsmiMinimize.Visible = false;
         }
 
-        private void CloseApplication_Click(object sender, EventArgs e)
+        private void ExitApplication_Click(object sender, EventArgs e)
         {
+            myExit();
+        }
+
+        private void myExit()
+        {
+            Disconnect();
             Application.Exit();
-        }
-
-        private DataTable getData()
-        {
-            conn.ConnectionString = String.Format("server={0};uid={1};pwd={2};database={3};", dbServer, dbUsername, dbPassword, dbDatabase);
-
-            DataSet results = new DataSet();
-
-            string commandString = "SELECT DISTINCT h.host,t.description,t.priority,t.triggerid FROM triggers t,functions f,items i,hosts h WHERE ((t.triggerid  BETWEEN 000000000000000 AND 099999999999999)) AND  NOT EXISTS ( SELECT ff.functionid FROM functions ff WHERE ff.triggerid=t.triggerid AND EXISTS ( SELECT ii.itemid FROM items ii, hosts hh WHERE ff.itemid=ii.itemid AND hh.hostid=ii.hostid AND ( ii.status<>0 OR hh.status<>0 ) ) ) AND t.status=0 AND t.value=1 AND f.triggerid=t.triggerid AND f.itemid=i.itemid AND h.hostid=i.hostid AND h.maintenance_status = 0 AND t.priority >= " + minPriority.ToString() + " ORDER BY t.lastchange DESC";
-
-            try
-            {
-                cmd.CommandText = commandString;
-                cmd.Connection = conn;
-
-                myAdapter.SelectCommand = cmd;
-                myAdapter.Fill(results);
-            }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                systemTrayIcon.ShowBalloonTip(5000, null, "Error: " + ex.Message.ToString(), ToolTipIcon.Error);
-                return null;
-            }
-
-            results.Tables[0].Columns.Add("severity");
-
-            foreach (DataRow dr in results.Tables[0].Rows)
-            {
-                if (!showAck)
-                {
-                    commandString = "SELECT e.acknowledged FROM events e WHERE e.object=0 AND e.objectid=" + dr["triggerid"].ToString() + " AND e.value=1 ORDER by e.object DESC, e.objectid DESC, e.eventid DESC LIMIT 1 OFFSET 0";
-                    cmd.CommandText = commandString;
-                    cmd.Connection = conn;
-
-                    myAdapter.SelectCommand = cmd;
-                    DataSet ds = new DataSet();
-                    myAdapter.Fill(ds);
-                    foreach (DataRow dsdr in ds.Tables[0].Rows)
-                    {
-                        if (dsdr[0].ToString() == "1")
-                        {
-                            dr.Delete();
-                        }
-                    }
-                }
-
-                if (dr.RowState != DataRowState.Deleted)
-                {
-                    int highP = 0;
-                    dr["description"] = dr["description"].ToString().Replace("{HOSTNAME}", dr["host"].ToString());
-                    dr["severity"] = getPriorityValue(Int32.Parse(dr["priority"].ToString()));
-                    if (Int32.Parse(dr["priority"].ToString()) > highP)
-                    {
-                        highP = Int32.Parse(dr["priority"].ToString());
-                    }
-                    highestPriority = highP;
-                }
-            }
-            results.Tables[0].Columns.Remove("triggerid");
-            results.Tables[0].Columns.Remove("host");
-            results.Tables[0].Columns.Remove("priority");
-            results.AcceptChanges();
-            return results.Tables[0];
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            updateAlerts();
         }
 
         public Color priorityToColor(int p)
@@ -298,10 +293,27 @@ namespace ZabbixTray
             return Color.FromArgb(ir, ig, ib);
         }
 
-        public void updateAlerts()
+        private void updateAlerts()
         {
-            dtAlerts = getData();
-            if (dtAlerts == null)
+            DataTable dtTriggers = new DataTable();
+            dtTriggers.Columns.Add("Host", typeof(string));
+            dtTriggers.Columns.Add("Issue", typeof(string));
+            dtTriggers.Columns.Add("Priority", typeof(string));
+            dtTriggers.Columns.Add("Last Change", typeof(DateTime));
+
+            if (zApi != null && zApi.triggers.Count() > 0)
+            {
+                foreach (Trigger tr in zApi.triggers)
+                {
+                    string host = tr.host.ToString();
+                    string issue = tr.description;
+                    string priority = priorityValues[Int32.Parse(tr.priority)].ToString();
+                    DateTime lastchange = tr.lastchangeDateTime;
+                    dtTriggers.Rows.Add(host, issue, priority, lastchange);
+                }
+            }
+
+            if (dtTriggers == null)
             {
                 lblAlerts.BackColor = priorityToColor(0);
                 lblLastCheck.Text = "ERROR";
@@ -309,12 +321,26 @@ namespace ZabbixTray
             }
             else
             {
-                bindingSource1.DataSource = dtAlerts;
-                dgvAlerts.DataSource = bindingSource1;
-                DataView dv = new DataView(dtAlerts);
-                dv.RowStateFilter = DataViewRowState.CurrentRows;
-                numAlerts = dv.Count;
+                bsTriggers.DataSource = dtTriggers;
+                dgvTriggers.DataSource = bsTriggers;
+                dgvTriggers.ClearSelection();
+                numAlerts = dgvTriggers.RowCount;
                 lblAlerts.Text = numAlerts.ToString();
+
+                for (int i = 0; i < dgvTriggers.RowCount; i++)
+                {
+                    try
+                    {
+                        int p = getPriorityKey(dgvTriggers.Rows[i].Cells["Priority"].Value.ToString());
+                        if (p > highestPriority) { highestPriority = p; }
+                        dgvTriggers.Rows[i].DefaultCellStyle = cellStyles[p];
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug(ex.Message);
+                    }
+
+                }
 
                 if (numAlerts > 0)
                 {
@@ -332,6 +358,8 @@ namespace ZabbixTray
                 }
 
                 lblLastCheck.Text = DateTime.Now.ToLocalTime().ToString();
+
+                
             }
 
             lblMinPriority.Text = getPriorityValue(minPriority);
@@ -384,7 +412,7 @@ namespace ZabbixTray
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            myExit();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -405,11 +433,6 @@ namespace ZabbixTray
             fo.ShowDialog(this);
         }
 
-        private void checkNowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            updateAlerts();
-        }
-
         private void btnCheckNow_Click(object sender, EventArgs e)
         {
             updateAlerts();
@@ -427,6 +450,96 @@ namespace ZabbixTray
         private void cmsSystemTrayIcon_DoubleClick(object sender, EventArgs e)
         {
             restoreMe();
+        }
+
+        private void Connect()
+        {
+            if (zApi != null)
+            {
+                zApi.stop();
+            }
+            Debug("Creating API connection");
+            zApi = new ZabbixAPI(apiURL, apiUsername, apiPassword);
+            zApi.onUpdate += updateInfo;
+            this.Cursor = Cursors.WaitCursor;
+            zApi.setMinSeverity(minPriority.ToString());
+            zApi.setInterval(checkInterval);
+            if (showAck)
+            {
+                zApi.setHideAck(0);
+            }
+            else
+            {
+                zApi.setHideAck(1);
+            }
+            zApi.connect();
+            lblAPIVersion.Text = "API Version: " + zApi.ApiVersion();
+        }
+
+        private void Disconnect()
+        {
+            if (zApi != null)
+            {
+                zApi.stop();
+            }
+        }
+
+        private void updateInfo(UpdateInfoMessage info)
+        {
+            if (!this.IsDisposed)
+            {
+                switch (info.status)
+                {
+                    case "OK":
+                        this.Invoke(new simplefunc(() =>
+                        {
+                            tssMessage.Text = info.message;
+                            this.Cursor = Cursors.Arrow;
+                        }));
+                        break;
+                    case "DEBUG":
+                        this.Invoke(new simplefunc(() =>
+                        {
+                            Debug(info.message);
+                        }));
+                        break;
+                    case "TRIGGERS":
+                        this.Invoke(new simplefunc(() =>
+                        {
+                            long ticks = long.Parse(info.message);
+                            double ms = ticks / 10000;
+                            Debug("Triggers fetched in: " + ms.ToString() + "ms");
+                            updateAlerts();
+                        }));
+                        break;
+                    case "HOSTS":
+                        this.Invoke(new simplefunc(() =>
+                        {
+                            long ticks = long.Parse(info.message);
+                            double ms = ticks / 10000;
+                            Debug("Hosts fetched in: " + ms.ToString() + "ms");
+                        }));
+                        break;
+                    case "REFRESH":
+                        break;
+                    default:
+                        this.Invoke(new simplefunc(() =>
+                        {
+                            tssMessage.Text = info.message;
+                        }));
+                        break;
+                }
+            }
+        }
+
+        public void Debug(string m)
+        {
+            string temp = tbDebug.Text;
+            temp += m;
+            temp += "\r\n";
+            tbDebug.Text = temp;
+            tbDebug.SelectionStart = tbDebug.Text.Length;
+            tbDebug.ScrollToCaret();
         }
     }
 }

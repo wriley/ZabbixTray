@@ -14,22 +14,22 @@ namespace ZabbixTray
     public partial class frmOptions : Form
     {
         frmMain parentForm;
-        
+
 
         public frmOptions(frmMain frm)
         {
             InitializeComponent();
             parentForm = new frmMain();
             parentForm = frm;
-            
+
         }
 
         private void frmOptions_Load(object sender, EventArgs e)
         {
-            tbServer.Text = parentForm.DbServer;
-            tbDatabase.Text = parentForm.DbDatabase;
-            tbUsername.Text = parentForm.DbUsername;
-            tbPassword.Text = parentForm.DbPassword;
+            tbURL.Text = parentForm.ApiURL;
+            tbUsername.Text = parentForm.ApiUsername;
+            tbPassword.Text = parentForm.ApiPassword;
+
             cbInterval.SelectedIndex = cbInterval.Items.IndexOf(parentForm.CheckInterval.ToString());
             cbPriority.SelectedIndex = cbPriority.Items.IndexOf(parentForm.getPriorityValue(parentForm.MinPriority));
             if (parentForm.ShowAck)
@@ -50,20 +50,16 @@ namespace ZabbixTray
             }
         }
 
-        
-
         private void btnOK_Click(object sender, EventArgs e)
         {
-            parentForm.DbServer = tbServer.Text;
-            parentForm.DbDatabase = tbDatabase.Text;
-            parentForm.DbUsername = tbUsername.Text;
-            parentForm.DbPassword = tbPassword.Text;
+            parentForm.ApiURL = tbURL.Text;
+            parentForm.ApiUsername = tbUsername.Text;
+            parentForm.ApiPassword = tbPassword.Text;
             parentForm.CheckInterval = Int32.Parse(cbInterval.SelectedItem.ToString());
             parentForm.MinPriority = parentForm.getPriorityKey(cbPriority.SelectedItem.ToString());
             parentForm.ShowAck = cbShowAck.Checked;
             parentForm.ShowPopup = cbShowPopup.Checked;
             parentForm.saveSettings();
-            parentForm.updateAlerts();
             this.Dispose();
         }
 
