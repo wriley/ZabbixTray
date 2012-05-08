@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
 using Ini;
 using Zabbix;
 using System.IO;
@@ -41,6 +42,7 @@ namespace ZabbixTray
         private Hashtable priorityValues = new Hashtable();
         private Hashtable priorityColors = new Hashtable();
         private DataGridViewCellStyle[] cellStyles = new DataGridViewCellStyle[6];
+        private string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         #endregion
 
         public frmMain()
@@ -152,7 +154,12 @@ namespace ZabbixTray
 
         private void loadSettings()
         {
-            IniFile ini = new IniFile(Directory.GetCurrentDirectory() + "\\ZabbixTray.ini");
+            if (!File.Exists(exePath + "\\ZabbixTray.ini"))
+            {
+                return;
+            }
+
+            IniFile ini = new IniFile(exePath + "\\ZabbixTray.ini");
             apiURL = ini.IniReadValue("Options", "apiURL");
             apiUsername = ini.IniReadValue("Options", "apiUsername");
             apiPassword = ini.IniReadValue("Options", "apiPassword");
@@ -215,7 +222,7 @@ namespace ZabbixTray
 
         public void saveSettings()
         {
-            IniFile ini = new IniFile(Directory.GetCurrentDirectory() + "\\ZabbixTray.ini");
+            IniFile ini = new IniFile(exePath + "\\ZabbixTray.ini");
             ini.IniWriteValue("Options", "apiURL", apiURL);
             ini.IniWriteValue("Options", "apiUsername", apiUsername);
             ini.IniWriteValue("Options", "apiPassword", apiPassword);

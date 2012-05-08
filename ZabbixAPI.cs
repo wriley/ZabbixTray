@@ -422,7 +422,14 @@ namespace Zabbix
         {
             get
             {
-                return result[index];
+                try
+                {
+                    return result[index];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return default(T);
+                }
             }
         }
 

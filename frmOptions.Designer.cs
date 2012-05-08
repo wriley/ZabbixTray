@@ -44,15 +44,17 @@
             this.cbPriority = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbShowPopup = new System.Windows.Forms.CheckBox();
+            this.lblURLHint = new System.Windows.Forms.Label();
             this.gbAPIOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblInterval
             // 
             this.lblInterval.AutoSize = true;
-            this.lblInterval.Location = new System.Drawing.Point(103, 131);
+            this.lblInterval.Location = new System.Drawing.Point(138, 180);
+            this.lblInterval.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInterval.Name = "lblInterval";
-            this.lblInterval.Size = new System.Drawing.Size(76, 13);
+            this.lblInterval.Size = new System.Drawing.Size(97, 17);
             this.lblInterval.TabIndex = 8;
             this.lblInterval.Text = "Check Interval";
             // 
@@ -69,25 +71,28 @@
             "120",
             "300",
             "600"});
-            this.cbInterval.Location = new System.Drawing.Point(185, 128);
+            this.cbInterval.Location = new System.Drawing.Point(248, 177);
+            this.cbInterval.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbInterval.Name = "cbInterval";
-            this.cbInterval.Size = new System.Drawing.Size(73, 21);
+            this.cbInterval.Size = new System.Drawing.Size(96, 24);
             this.cbInterval.TabIndex = 9;
             // 
             // lblSecond
             // 
             this.lblSecond.AutoSize = true;
-            this.lblSecond.Location = new System.Drawing.Point(264, 131);
+            this.lblSecond.Location = new System.Drawing.Point(353, 180);
+            this.lblSecond.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSecond.Name = "lblSecond";
-            this.lblSecond.Size = new System.Drawing.Size(47, 13);
+            this.lblSecond.Size = new System.Drawing.Size(61, 17);
             this.lblSecond.TabIndex = 10;
             this.lblSecond.Text = "seconds";
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(129, 236);
+            this.btnOK.Location = new System.Drawing.Point(173, 309);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.Size = new System.Drawing.Size(100, 28);
             this.btnOK.TabIndex = 11;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -95,9 +100,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(210, 236);
+            this.btnCancel.Location = new System.Drawing.Point(281, 309);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -106,63 +112,72 @@
             // lblURL
             // 
             this.lblURL.AutoSize = true;
-            this.lblURL.Location = new System.Drawing.Point(18, 22);
+            this.lblURL.Location = new System.Drawing.Point(24, 27);
+            this.lblURL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblURL.Name = "lblURL";
-            this.lblURL.Size = new System.Drawing.Size(29, 13);
+            this.lblURL.Size = new System.Drawing.Size(36, 17);
             this.lblURL.TabIndex = 13;
             this.lblURL.Text = "URL";
             // 
             // tbURL
             // 
-            this.tbURL.Location = new System.Drawing.Point(53, 19);
+            this.tbURL.Location = new System.Drawing.Point(71, 23);
+            this.tbURL.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbURL.Name = "tbURL";
-            this.tbURL.Size = new System.Drawing.Size(305, 20);
+            this.tbURL.Size = new System.Drawing.Size(405, 22);
             this.tbURL.TabIndex = 14;
             // 
             // tbUsername
             // 
-            this.tbUsername.Location = new System.Drawing.Point(160, 45);
+            this.tbUsername.Location = new System.Drawing.Point(214, 80);
+            this.tbUsername.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(118, 20);
+            this.tbUsername.Size = new System.Drawing.Size(156, 22);
             this.tbUsername.TabIndex = 18;
             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(99, 48);
+            this.lblUsername.Location = new System.Drawing.Point(133, 84);
+            this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(55, 13);
+            this.lblUsername.Size = new System.Drawing.Size(73, 17);
             this.lblUsername.TabIndex = 17;
             this.lblUsername.Text = "Username";
             // 
             // tbPassword
             // 
-            this.tbPassword.Location = new System.Drawing.Point(159, 71);
+            this.tbPassword.Location = new System.Drawing.Point(213, 112);
+            this.tbPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(118, 20);
+            this.tbPassword.Size = new System.Drawing.Size(156, 22);
             this.tbPassword.TabIndex = 20;
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(100, 74);
+            this.lblPassword.Location = new System.Drawing.Point(134, 116);
+            this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(53, 13);
+            this.lblPassword.Size = new System.Drawing.Size(69, 17);
             this.lblPassword.TabIndex = 19;
             this.lblPassword.Text = "Password";
             // 
             // gbAPIOptions
             // 
+            this.gbAPIOptions.Controls.Add(this.lblURLHint);
             this.gbAPIOptions.Controls.Add(this.tbURL);
             this.gbAPIOptions.Controls.Add(this.tbPassword);
             this.gbAPIOptions.Controls.Add(this.lblPassword);
             this.gbAPIOptions.Controls.Add(this.lblURL);
             this.gbAPIOptions.Controls.Add(this.tbUsername);
             this.gbAPIOptions.Controls.Add(this.lblUsername);
-            this.gbAPIOptions.Location = new System.Drawing.Point(12, 12);
+            this.gbAPIOptions.Location = new System.Drawing.Point(16, 15);
+            this.gbAPIOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gbAPIOptions.Name = "gbAPIOptions";
-            this.gbAPIOptions.Size = new System.Drawing.Size(377, 110);
+            this.gbAPIOptions.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbAPIOptions.Size = new System.Drawing.Size(503, 148);
             this.gbAPIOptions.TabIndex = 21;
             this.gbAPIOptions.TabStop = false;
             this.gbAPIOptions.Text = "API";
@@ -170,9 +185,10 @@
             // cbShowAck
             // 
             this.cbShowAck.AutoSize = true;
-            this.cbShowAck.Location = new System.Drawing.Point(129, 182);
+            this.cbShowAck.Location = new System.Drawing.Point(173, 243);
+            this.cbShowAck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbShowAck.Name = "cbShowAck";
-            this.cbShowAck.Size = new System.Drawing.Size(156, 17);
+            this.cbShowAck.Size = new System.Drawing.Size(199, 21);
             this.cbShowAck.TabIndex = 22;
             this.cbShowAck.Text = "Show Acknowledged Alerts";
             this.cbShowAck.UseVisualStyleBackColor = true;
@@ -188,35 +204,49 @@
             "Average",
             "High",
             "Disaster"});
-            this.cbPriority.Location = new System.Drawing.Point(184, 155);
+            this.cbPriority.Location = new System.Drawing.Point(246, 210);
+            this.cbPriority.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbPriority.Name = "cbPriority";
-            this.cbPriority.Size = new System.Drawing.Size(101, 21);
+            this.cbPriority.Size = new System.Drawing.Size(133, 24);
             this.cbPriority.TabIndex = 23;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(89, 158);
+            this.label1.Location = new System.Drawing.Point(120, 213);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.Size = new System.Drawing.Size(118, 17);
             this.label1.TabIndex = 24;
             this.label1.Text = "Minimum Severity";
             // 
             // cbShowPopup
             // 
             this.cbShowPopup.AutoSize = true;
-            this.cbShowPopup.Location = new System.Drawing.Point(129, 205);
+            this.cbShowPopup.Location = new System.Drawing.Point(173, 271);
+            this.cbShowPopup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbShowPopup.Name = "cbShowPopup";
-            this.cbShowPopup.Size = new System.Drawing.Size(133, 17);
+            this.cbShowPopup.Size = new System.Drawing.Size(174, 21);
             this.cbShowPopup.TabIndex = 25;
             this.cbShowPopup.Text = "Show Pop-up for alerts";
             this.cbShowPopup.UseVisualStyleBackColor = true;
             // 
+            // lblURLHint
+            // 
+            this.lblURLHint.AutoSize = true;
+            this.lblURLHint.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblURLHint.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblURLHint.Location = new System.Drawing.Point(108, 49);
+            this.lblURLHint.Name = "lblURLHint";
+            this.lblURLHint.Size = new System.Drawing.Size(287, 17);
+            this.lblURLHint.TabIndex = 26;
+            this.lblURLHint.Text = "example: http://HOSTNAME/api_jsonrpc.php";
+            // 
             // frmOptions
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 276);
+            this.ClientSize = new System.Drawing.Size(535, 354);
             this.Controls.Add(this.cbShowPopup);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbPriority);
@@ -227,6 +257,7 @@
             this.Controls.Add(this.lblSecond);
             this.Controls.Add(this.cbInterval);
             this.Controls.Add(this.lblInterval);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmOptions";
             this.Text = "ZabbixTray Options";
             this.Load += new System.EventHandler(this.frmOptions_Load);
@@ -255,5 +286,6 @@
         private System.Windows.Forms.ComboBox cbPriority;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbShowPopup;
+        private System.Windows.Forms.Label lblURLHint;
     }
 }
