@@ -358,6 +358,7 @@ namespace Zabbix
         protected object Params;
         public string stringResult;
         public object SyncRoot;
+        public Error error;
         protected virtual void init() { }
 
         public Result(ZabbixAPI Server)
@@ -380,18 +381,27 @@ namespace Zabbix
             lock (SyncRoot)
             {
                 stringResult = (server.CallAPI(method, Params));
-                server.Update(new UpdateInfoMessage(this) { message = "Processing query result", status = "INFO" });
+                server.Update(new UpdateInfoMessage(this) { message = "Processing query result...", status = "INFO" });
                 try
                 {
-                    result = serializer.Deserialize<Result<T>>(stringResult).result;
+                    Result<T> myResult = serializer.Deserialize<Result<T>>(stringResult);
+                    error = myResult.error;
+                    result = myResult.result;
                 }
                 catch (ArgumentException ex)
                 {
                     server.Update(new UpdateInfoMessage(this) { message = "ArgumentException: " + ex.Message, status = "INFO" });
                 }
-                if (result == null) { result = new T[1]; }
-                server.Update(new UpdateInfoMessage(this) { message = "Copying result to collection", status = "INFO" });
-                server.Update(new UpdateInfoMessage(this) { message = "", status = "INFO" });
+                if (error == null)
+                {
+                    server.Update(new UpdateInfoMessage(this) { message = "", status = "INFO" });
+                } else {
+                    server.Update(new UpdateInfoMessage(this) { message = "Error: " + error.data, status = "INFO" });
+                }
+                if (result == null)
+                {
+                    result = new T[1];
+                }
             }
         }
 
@@ -403,18 +413,29 @@ namespace Zabbix
             lock (SyncRoot)
             {
                 stringResult = (server.CallAPI(method, p));
-                server.Update(new UpdateInfoMessage(this) { message = "Processing query result", status = "INFO" });
+                server.Update(new UpdateInfoMessage(this) { message = "Processing query result...", status = "INFO" });
                 try
                 {
-                    result = serializer.Deserialize<Result<T>>(stringResult).result;
+                    Result<T> myResult = serializer.Deserialize<Result<T>>(stringResult);
+                    error = myResult.error;
+                    result = myResult.result;
                 }
                 catch (ArgumentException ex)
                 {
                     server.Update(new UpdateInfoMessage(this) { message = "ArgumentException: " + ex.Message, status = "INFO" });
                 }
-                if (result == null) { result = new T[1]; }
-                server.Update(new UpdateInfoMessage(this) { message = "Copying result to collection", status = "INFO" });
-                server.Update(new UpdateInfoMessage(this) { message = "", status = "INFO" });
+                if (error == null)
+                {
+                    server.Update(new UpdateInfoMessage(this) { message = "", status = "INFO" });
+                }
+                else
+                {
+                    server.Update(new UpdateInfoMessage(this) { message = "Error: " + error.data, status = "INFO" });
+                }
+                if (result == null)
+                {
+                    result = new T[1];
+                }
             }
         }
 
@@ -447,6 +468,13 @@ namespace Zabbix
         {
             return GetEnumerator();
         }
+    }
+
+    public class Error
+    {
+        public int code;
+        public string message;
+        public string data;
     }
 
     public class simpleresult

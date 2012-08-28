@@ -539,6 +539,7 @@ namespace ZabbixTray
                         this.Invoke(new simplefunc(() =>
                         {
                             tssMessage.Text = info.message;
+                            Debug(info.message);
                         }));
                         break;
                 }

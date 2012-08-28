@@ -145,8 +145,10 @@
             this.gbAlertDetails.Controls.Add(this.dgvTriggers);
             this.gbAlertDetails.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbAlertDetails.Location = new System.Drawing.Point(0, 0);
+            this.gbAlertDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gbAlertDetails.Name = "gbAlertDetails";
-            this.gbAlertDetails.Size = new System.Drawing.Size(659, 371);
+            this.gbAlertDetails.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbAlertDetails.Size = new System.Drawing.Size(879, 457);
             this.gbAlertDetails.TabIndex = 4;
             this.gbAlertDetails.TabStop = false;
             this.gbAlertDetails.Text = "Alert Details";
@@ -161,28 +163,32 @@
             this.dgvTriggers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvTriggers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTriggers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTriggers.Location = new System.Drawing.Point(3, 16);
+            this.dgvTriggers.Location = new System.Drawing.Point(4, 19);
+            this.dgvTriggers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvTriggers.Name = "dgvTriggers";
             this.dgvTriggers.ReadOnly = true;
-            this.dgvTriggers.Size = new System.Drawing.Size(653, 352);
+            this.dgvTriggers.RowTemplate.Height = 24;
+            this.dgvTriggers.Size = new System.Drawing.Size(871, 434);
             this.dgvTriggers.TabIndex = 3;
             // 
             // lblAlerts
             // 
             this.lblAlerts.AutoSize = true;
             this.lblAlerts.BackColor = System.Drawing.Color.LimeGreen;
-            this.lblAlerts.Location = new System.Drawing.Point(79, 8);
+            this.lblAlerts.Location = new System.Drawing.Point(105, 10);
+            this.lblAlerts.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAlerts.Name = "lblAlerts";
-            this.lblAlerts.Size = new System.Drawing.Size(28, 13);
+            this.lblAlerts.Size = new System.Drawing.Size(32, 17);
             this.lblAlerts.TabIndex = 2;
             this.lblAlerts.Text = "###";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 8);
+            this.label1.Location = new System.Drawing.Point(4, 10);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.Size = new System.Drawing.Size(95, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "Current Alerts";
             // 
@@ -197,18 +203,20 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.lblAlerts);
-            this.panel1.Location = new System.Drawing.Point(12, 27);
+            this.panel1.Location = new System.Drawing.Point(16, 33);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(659, 54);
+            this.panel1.Size = new System.Drawing.Size(879, 66);
             this.panel1.TabIndex = 5;
             // 
             // lblAPIVersion
             // 
             this.lblAPIVersion.AutoSize = true;
             this.lblAPIVersion.BackColor = System.Drawing.SystemColors.Control;
-            this.lblAPIVersion.Location = new System.Drawing.Point(169, 30);
+            this.lblAPIVersion.Location = new System.Drawing.Point(225, 37);
+            this.lblAPIVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAPIVersion.Name = "lblAPIVersion";
-            this.lblAPIVersion.Size = new System.Drawing.Size(88, 13);
+            this.lblAPIVersion.Size = new System.Drawing.Size(112, 17);
             this.lblAPIVersion.TabIndex = 10;
             this.lblAPIVersion.Text = "API Version: N/A";
             // 
@@ -216,66 +224,73 @@
             // 
             this.lblMinPriority.AutoSize = true;
             this.lblMinPriority.BackColor = System.Drawing.SystemColors.Control;
-            this.lblMinPriority.Location = new System.Drawing.Point(91, 30);
+            this.lblMinPriority.Location = new System.Drawing.Point(121, 37);
+            this.lblMinPriority.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMinPriority.Name = "lblMinPriority";
-            this.lblMinPriority.Size = new System.Drawing.Size(47, 13);
+            this.lblMinPriority.Size = new System.Drawing.Size(61, 17);
             this.lblMinPriority.TabIndex = 9;
             this.lblMinPriority.Text = "Warning";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 30);
+            this.label4.Location = new System.Drawing.Point(4, 37);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(82, 13);
+            this.label4.Size = new System.Drawing.Size(111, 17);
             this.label4.TabIndex = 8;
             this.label4.Text = "Minimum Priority";
             // 
             // lblLastCheck
             // 
             this.lblLastCheck.AutoSize = true;
-            this.lblLastCheck.Location = new System.Drawing.Point(422, 8);
+            this.lblLastCheck.Location = new System.Drawing.Point(563, 10);
+            this.lblLastCheck.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLastCheck.Name = "lblLastCheck";
-            this.lblLastCheck.Size = new System.Drawing.Size(141, 13);
+            this.lblLastCheck.Size = new System.Drawing.Size(160, 17);
             this.lblLastCheck.TabIndex = 6;
             this.lblLastCheck.Text = "##/##/#### ##:##:## ##";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(355, 8);
+            this.label3.Location = new System.Drawing.Point(473, 10);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.Size = new System.Drawing.Size(78, 17);
             this.label3.TabIndex = 5;
             this.label3.Text = "Last Check";
             // 
             // lblCheckInterval
             // 
             this.lblCheckInterval.AutoSize = true;
-            this.lblCheckInterval.Location = new System.Drawing.Point(300, 8);
+            this.lblCheckInterval.Location = new System.Drawing.Point(400, 10);
+            this.lblCheckInterval.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCheckInterval.Name = "lblCheckInterval";
-            this.lblCheckInterval.Size = new System.Drawing.Size(28, 13);
+            this.lblCheckInterval.Size = new System.Drawing.Size(32, 17);
             this.lblCheckInterval.TabIndex = 4;
             this.lblCheckInterval.Text = "###";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(169, 8);
+            this.label2.Location = new System.Drawing.Point(225, 10);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 13);
+            this.label2.Size = new System.Drawing.Size(164, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Check Interval (seconds)";
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.gbAlertDetails);
-            this.panel2.Location = new System.Drawing.Point(12, 87);
+            this.panel2.Location = new System.Drawing.Point(16, 107);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(659, 374);
+            this.panel2.Size = new System.Drawing.Size(879, 460);
             this.panel2.TabIndex = 6;
             // 
             // menuStrip1
@@ -287,7 +302,8 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(683, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(911, 28);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -296,13 +312,13 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(102, 24);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -319,27 +335,27 @@
             this.selectAllToolStripMenuItem});
             this.editToolStripMenuItem.Enabled = false;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
             this.editToolStripMenuItem.Text = "&Edit";
             // 
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.undoToolStripMenuItem.Text = "&Undo";
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.redoToolStripMenuItem.Text = "&Redo";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(162, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -347,7 +363,7 @@
             this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.cutToolStripMenuItem.Text = "Cu&t";
             // 
             // copyToolStripMenuItem
@@ -356,7 +372,7 @@
             this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
@@ -365,18 +381,18 @@
             this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.pasteToolStripMenuItem.Text = "&Paste";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(162, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(165, 24);
             this.selectAllToolStripMenuItem.Text = "Select &All";
             // 
             // toolsToolStripMenuItem
@@ -384,13 +400,13 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -399,34 +415,36 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(128, 24);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // tbDebug
             // 
             this.tbDebug.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbDebug.Location = new System.Drawing.Point(3, 16);
+            this.tbDebug.Location = new System.Drawing.Point(4, 19);
+            this.tbDebug.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbDebug.Multiline = true;
             this.tbDebug.Name = "tbDebug";
             this.tbDebug.ReadOnly = true;
             this.tbDebug.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbDebug.Size = new System.Drawing.Size(653, 115);
+            this.tbDebug.Size = new System.Drawing.Size(871, 146);
             this.tbDebug.TabIndex = 5;
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 604);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 748);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(683, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(911, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -438,24 +456,27 @@
             // gbDebugLog
             // 
             this.gbDebugLog.Controls.Add(this.tbDebug);
-            this.gbDebugLog.Location = new System.Drawing.Point(12, 467);
+            this.gbDebugLog.Location = new System.Drawing.Point(16, 575);
+            this.gbDebugLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gbDebugLog.Name = "gbDebugLog";
-            this.gbDebugLog.Size = new System.Drawing.Size(659, 134);
+            this.gbDebugLog.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbDebugLog.Size = new System.Drawing.Size(879, 169);
             this.gbDebugLog.TabIndex = 9;
             this.gbDebugLog.TabStop = false;
             this.gbDebugLog.Text = "Debug Log";
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 626);
+            this.ClientSize = new System.Drawing.Size(911, 770);
             this.Controls.Add(this.gbDebugLog);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmMain";
             this.Text = "ZabbixTray";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
