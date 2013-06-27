@@ -31,6 +31,7 @@ namespace ZabbixTray
             tbPassword.Text = parentForm.ApiPassword;
 
             cbInterval.SelectedIndex = cbInterval.Items.IndexOf(parentForm.CheckInterval.ToString());
+            
             cbPriority.SelectedIndex = cbPriority.Items.IndexOf(parentForm.getPriorityValue(parentForm.MinPriority));
             if (parentForm.ShowAck)
             {
@@ -40,6 +41,7 @@ namespace ZabbixTray
             {
                 cbShowAck.Checked = false;
             }
+            
             if (parentForm.ShowPopup)
             {
                 cbShowPopup.Checked = true;
@@ -47,6 +49,15 @@ namespace ZabbixTray
             else
             {
                 cbShowPopup.Checked = false;
+            }
+            
+            if (parentForm.IgnoreSSLErrors)
+            {
+                cbIgnoreSSLErrors.Checked = true;
+            }
+            else
+            {
+                cbIgnoreSSLErrors.Checked = false;
             }
         }
 
@@ -59,6 +70,7 @@ namespace ZabbixTray
             parentForm.MinPriority = parentForm.getPriorityKey(cbPriority.SelectedItem.ToString());
             parentForm.ShowAck = cbShowAck.Checked;
             parentForm.ShowPopup = cbShowPopup.Checked;
+            parentForm.IgnoreSSLErrors = cbIgnoreSSLErrors.Checked;
             parentForm.saveSettings();
             parentForm.reset();
             this.Dispose();

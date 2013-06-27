@@ -98,13 +98,13 @@
             this.toolStripSeparator1,
             this.tsmiExit});
             this.cmsSystemTrayIcon.Name = "contextMenuStrip1";
-            this.cmsSystemTrayIcon.Size = new System.Drawing.Size(153, 126);
+            this.cmsSystemTrayIcon.Size = new System.Drawing.Size(153, 134);
             this.cmsSystemTrayIcon.DoubleClick += new System.EventHandler(this.cmsSystemTrayIcon_DoubleClick);
             // 
             // tsmiRestore
             // 
             this.tsmiRestore.Name = "tsmiRestore";
-            this.tsmiRestore.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRestore.Size = new System.Drawing.Size(152, 24);
             this.tsmiRestore.Text = "&Restore";
             this.tsmiRestore.Visible = false;
             this.tsmiRestore.Click += new System.EventHandler(this.Restore_Click);
@@ -112,7 +112,7 @@
             // tsmiMinimize
             // 
             this.tsmiMinimize.Name = "tsmiMinimize";
-            this.tsmiMinimize.Size = new System.Drawing.Size(152, 22);
+            this.tsmiMinimize.Size = new System.Drawing.Size(152, 24);
             this.tsmiMinimize.Text = "&Minimize";
             this.tsmiMinimize.Click += new System.EventHandler(this.tsmiMinimize_Click);
             // 
@@ -124,7 +124,7 @@
             // tsmiOptions
             // 
             this.tsmiOptions.Name = "tsmiOptions";
-            this.tsmiOptions.Size = new System.Drawing.Size(152, 22);
+            this.tsmiOptions.Size = new System.Drawing.Size(152, 24);
             this.tsmiOptions.Text = "Options";
             this.tsmiOptions.Click += new System.EventHandler(this.tsmiOptions_Click);
             // 
@@ -136,7 +136,7 @@
             // tsmiExit
             // 
             this.tsmiExit.Name = "tsmiExit";
-            this.tsmiExit.Size = new System.Drawing.Size(152, 22);
+            this.tsmiExit.Size = new System.Drawing.Size(152, 24);
             this.tsmiExit.Text = "E&xit";
             this.tsmiExit.Click += new System.EventHandler(this.ExitApplication_Click);
             // 
@@ -145,9 +145,9 @@
             this.gbAlertDetails.Controls.Add(this.dgvTriggers);
             this.gbAlertDetails.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbAlertDetails.Location = new System.Drawing.Point(0, 0);
-            this.gbAlertDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbAlertDetails.Margin = new System.Windows.Forms.Padding(4);
             this.gbAlertDetails.Name = "gbAlertDetails";
-            this.gbAlertDetails.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbAlertDetails.Padding = new System.Windows.Forms.Padding(4);
             this.gbAlertDetails.Size = new System.Drawing.Size(879, 457);
             this.gbAlertDetails.TabIndex = 4;
             this.gbAlertDetails.TabStop = false;
@@ -164,7 +164,7 @@
             this.dgvTriggers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTriggers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTriggers.Location = new System.Drawing.Point(4, 19);
-            this.dgvTriggers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvTriggers.Margin = new System.Windows.Forms.Padding(4);
             this.dgvTriggers.Name = "dgvTriggers";
             this.dgvTriggers.ReadOnly = true;
             this.dgvTriggers.RowTemplate.Height = 24;
@@ -204,7 +204,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.lblAlerts);
             this.panel1.Location = new System.Drawing.Point(16, 33);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(879, 66);
             this.panel1.TabIndex = 5;
@@ -288,7 +288,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.gbAlertDetails);
             this.panel2.Location = new System.Drawing.Point(16, 107);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(879, 460);
             this.panel2.TabIndex = 6;
@@ -429,7 +429,7 @@
             // 
             this.tbDebug.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbDebug.Location = new System.Drawing.Point(4, 19);
-            this.tbDebug.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbDebug.Margin = new System.Windows.Forms.Padding(4);
             this.tbDebug.Multiline = true;
             this.tbDebug.Name = "tbDebug";
             this.tbDebug.ReadOnly = true;
@@ -457,9 +457,9 @@
             // 
             this.gbDebugLog.Controls.Add(this.tbDebug);
             this.gbDebugLog.Location = new System.Drawing.Point(16, 575);
-            this.gbDebugLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbDebugLog.Margin = new System.Windows.Forms.Padding(4);
             this.gbDebugLog.Name = "gbDebugLog";
-            this.gbDebugLog.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbDebugLog.Padding = new System.Windows.Forms.Padding(4);
             this.gbDebugLog.Size = new System.Drawing.Size(879, 169);
             this.gbDebugLog.TabIndex = 9;
             this.gbDebugLog.TabStop = false;
@@ -476,7 +476,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMain";
             this.Text = "ZabbixTray";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);

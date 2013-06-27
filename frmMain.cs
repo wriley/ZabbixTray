@@ -39,6 +39,7 @@ namespace ZabbixTray
         private int minPriority = 3;
         private bool showAck = true;
         private bool showPopup = true;
+        private bool ignoreSSLErrors = false;
         private Hashtable priorityValues = new Hashtable();
         private Hashtable priorityColors = new Hashtable();
         private DataGridViewCellStyle[] cellStyles = new DataGridViewCellStyle[6];
@@ -152,6 +153,12 @@ namespace ZabbixTray
             get { return showPopup; }
         }
 
+        public bool IgnoreSSLErrors
+        {
+            set { ignoreSSLErrors = true; }
+            get { return ignoreSSLErrors; }
+        }
+
         private void loadSettings()
         {
             if (!File.Exists(exePath + "\\ZabbixTray.ini"))
@@ -230,6 +237,7 @@ namespace ZabbixTray
             ini.IniWriteValue("Options", "minPriority", minPriority.ToString());
             ini.IniWriteValue("Options", "showAck", showAck.ToString());
             ini.IniWriteValue("Options", "showPopup", showPopup.ToString());
+            ini.IniWriteValue("Options", "ignoreSSLErrors", ignoreSSLErrors.ToString());
         }
 
         private void setIcon(int p)
@@ -312,11 +320,13 @@ namespace ZabbixTray
             {
                 foreach (Trigger tr in zApi.triggers)
                 {
-                    string host = tr.host.ToString();
-                    string issue = tr.description;
+                    string host = "N/A";
+                    if (tr.host != null) { host = tr.host.ToString(); }
+                    string description = "N/A";
+                    if (tr.description != null) { description = tr.description; }
                     string priority = priorityValues[Int32.Parse(tr.priority)].ToString();
                     DateTime lastchange = tr.lastchangeDateTime;
-                    dtTriggers.Rows.Add(host, issue, priority, lastchange);
+                    dtTriggers.Rows.Add(host, description, priority, lastchange);
                 }
             }
 

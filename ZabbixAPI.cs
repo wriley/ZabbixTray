@@ -257,6 +257,8 @@ namespace Zabbix
 
             try
             {
+                
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
                 WebRequest wb = WebRequest.Create(_url);
                 wb.ContentType = @"application/json-rpc";
                 wb.Credentials = CredentialCache.DefaultCredentials;
@@ -514,7 +516,7 @@ namespace Zabbix
             base.getWithParams(p);
             foreach (Trigger tr in result)
             {
-                if (tr != null)
+                if (tr != null && tr.hosts != null)
                 {
                     tr.host = tr.hosts[0];
                 }
@@ -611,6 +613,7 @@ namespace Zabbix
         public HostGroups(ZabbixAPI Server) : base(Server) { }
 
     }
+
     public class HostGroup
     {
         public string groupid;
