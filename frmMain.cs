@@ -60,7 +60,7 @@ namespace ZabbixTray
             priorityValues.Add(5, "Disaster");
 
             priorityColors.Add(0, "cecece");
-            priorityColors.Add(1, "bbe2bb");
+            priorityColors.Add(1, "d6f6ff");
             priorityColors.Add(2, "efefcc");
             priorityColors.Add(3, "ddaaaa");
             priorityColors.Add(4, "ff8888");
