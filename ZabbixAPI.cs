@@ -92,7 +92,7 @@ namespace Zabbix
             try
             {
                 var userinfo = new { user = _username, password = _password };
-                string result = CallAPI("user.authenticate", userinfo);
+                string result = CallAPI("user.login", userinfo);
                 authHash = (serializer.Deserialize<simpleresult>(result)).result;
                 if (authHash == null)
                 {
