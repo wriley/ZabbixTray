@@ -200,7 +200,8 @@ namespace Zabbix
                 parms = new
                 {
                     output = "extend",
-                    select_hosts = "extend",
+                    //select_hosts = "extend",
+                    selectHosts = "extend",
                     monitored = "1",
                     only_true = "1",
                     sortfield = "lastchange",
@@ -215,7 +216,8 @@ namespace Zabbix
                 parms = new
                 {
                     output = "extend",
-                    select_hosts = "extend",
+                    //select_hosts = "extend",
+                    selectHosts = "extend",
                     monitored = "1",
                     only_true = "1",
                     sortfield = "lastchange",
@@ -503,7 +505,8 @@ namespace Zabbix
             Params = new
             {
                 output = "extend",
-                select_hosts = "extend",
+                //select_hosts = "extend",
+                selectHosts = "extend",
                 monitored = "1",
                 templated = "0",
                 only_true = "1",
@@ -651,7 +654,8 @@ namespace Zabbix
                 output = "extend",
                 sortfield = "clock",
                 sortorder = "ASC",
-                select_hosts = "shorten",
+                //select_hosts = "shorten",
+                selectHosts = "shorten",
                 select_triggers = "shorten",
                 limit = "1000"
 
