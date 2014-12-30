@@ -200,7 +200,8 @@ namespace Zabbix
                 parms = new
                 {
                     output = "extend",
-                    select_hosts = "extend",
+                    //select_hosts = "extend",
+                    selectHosts = "extend",
                     monitored = "1",
                     only_true = "1",
                     sortfield = "lastchange",
@@ -215,7 +216,8 @@ namespace Zabbix
                 parms = new
                 {
                     output = "extend",
-                    select_hosts = "extend",
+                    //select_hosts = "extend",
+                    selectHosts = "extend",
                     monitored = "1",
                     only_true = "1",
                     sortfield = "lastchange",
@@ -301,14 +303,25 @@ namespace Zabbix
         {
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
-            object Query = new
-            {
-                jsonrpc = "2.0",
-                auth = authHash,
-                id = id.ToString(),
-                method = method,
-                Params = param
-            };
+            object Query = null;
+            if (  method == "apiinfo.version" || method == "user.login"  ){
+                Query = new
+                    {
+                    jsonrpc = "2.0",
+                    id = id.ToString(),
+                    method = method,
+                    Params = param
+                    };
+            }else{
+                Query = new
+                {
+                    jsonrpc = "2.0",
+                    auth = authHash,
+                    id = id.ToString(),
+                    method = method,
+                    Params = param
+                    };
+            }
             String qr = obj2json(Query);
             qr = qr.Replace("Params", "params");
             id++;
@@ -492,7 +505,8 @@ namespace Zabbix
             Params = new
             {
                 output = "extend",
-                select_hosts = "extend",
+                //select_hosts = "extend",
+                selectHosts = "extend",
                 monitored = "1",
                 templated = "0",
                 only_true = "1",
@@ -640,7 +654,8 @@ namespace Zabbix
                 output = "extend",
                 sortfield = "clock",
                 sortorder = "ASC",
-                select_hosts = "shorten",
+                //select_hosts = "shorten",
+                selectHosts = "shorten",
                 select_triggers = "shorten",
                 limit = "1000"
 
