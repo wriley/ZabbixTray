@@ -301,14 +301,25 @@ namespace Zabbix
         {
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
-            object Query = new
-            {
-                jsonrpc = "2.0",
-                auth = authHash,
-                id = id.ToString(),
-                method = method,
-                Params = param
-            };
+            object Query = null;
+            if (  method == "apiinfo.version" || method == "user.login"  ){
+                Query = new
+                    {
+                    jsonrpc = "2.0",
+                    id = id.ToString(),
+                    method = method,
+                    Params = param
+                    };
+            }else{
+                Query = new
+                {
+                    jsonrpc = "2.0",
+                    auth = authHash,
+                    id = id.ToString(),
+                    method = method,
+                    Params = param
+                    };
+            }
             String qr = obj2json(Query);
             qr = qr.Replace("Params", "params");
             id++;
