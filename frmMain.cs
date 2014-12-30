@@ -11,6 +11,7 @@ using System.Reflection;
 using Ini;
 using Zabbix;
 using System.IO;
+using System.Media;
 
 namespace ZabbixTray
 {
@@ -365,6 +366,9 @@ namespace ZabbixTray
                     if (showPopup)
                     {
                         showBalloon();
+                        SoundPlayer player = new SoundPlayer(@"alarm_high.wav");
+                        player.Play();  
+
                     }
                     setIcon(highestPriority);
                 }
